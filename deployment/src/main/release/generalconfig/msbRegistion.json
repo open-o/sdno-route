@@ -1,0 +1,14 @@
+{
+  "serviceName": "sdnoroute",
+  "version": "v1",
+  "url": "/openoapi/sdnoroute/v1",
+  "protocol": "REST",
+  "visualRange": "1",
+  "nodes": [
+    {
+      "ip": "",
+      "port": "8551",
+      "ttl": 0
+    }
+  ]
+}

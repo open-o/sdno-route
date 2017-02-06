@@ -1,0 +1,14 @@
+{
+    "name":"routedb",
+
+    "owner":"routeSvc",
+
+    "authorization":"private",
+
+    "allowread":
+    [
+        "routeSvc"
+    ]
+}
+
+

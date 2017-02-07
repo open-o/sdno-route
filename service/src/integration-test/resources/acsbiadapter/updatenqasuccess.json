@@ -1,0 +1,44 @@
+{
+	"request": {
+		"uri": "/openoapi/sbi-route/v1/device/[a-zA-Z0-9\\-\\_]{1,36}/batch-update-nqa",
+		"method": "post",
+		"headers": {
+			"Content-Type": "application/json;charset=UTF-8",
+			"X-Driver-Parameter": "extSysID=123"
+		},
+		"json": null
+	},
+	"response": {
+		"status": 200,
+		"json": {
+			"errorCode": "overlayvpn.operation.success",
+			"descArg": "",
+			"reasonArg": "",
+			"detailArg": "",
+			"adviceArg": "",
+			"httpCode": 500,
+			"message": "",
+			"smallErrorCodeList": null,
+			"successed": [
+				{
+					"id": "abcdefgtest",
+					"tenantId": "tenantid",
+					"name": "vpn1",
+					"description": "test",
+					"deployStatus": "deploy",
+					"actionState": "None",
+					"activeStatus": "inactive",
+					"neId": "neid",
+		            "dstIp": "10.23.36.99",
+		            "testType": "ping",
+					"ttl": "50",
+					"interval": "20",
+		            "neRole": "cloudcpe",
+					"nbiNeRouteId": "abcdefgtest"
+				}
+			],
+			"fail": null,
+			"data": null
+		}
+	}
+}

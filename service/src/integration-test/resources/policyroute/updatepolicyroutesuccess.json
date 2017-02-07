@@ -1,0 +1,30 @@
+{
+    "request": {
+        "uri": "/openoapi/sdnoroute/v1/policy-routes",
+        "method": "put",
+        "headers": {
+            "Content-Type": "application/json;charset=UTF-8"
+        },
+        "json": [{
+        	"id": "successid",
+            "tenantId": "tenantid",
+            "name": "vpn1",
+            "description": "test",
+            "deployStatus": "deploy",
+            "actionState": "None",
+            "activeStatus": "inactive",
+            "srcNeId": "neId",
+            "connectionId": "connectionId",
+            "type": "policy",
+			"trafficPolicyName": "mqc2",
+			"filterAction": "filterAction2",
+			"interfaceName": "vlanif1",
+			"direction": "inbound",
+            "srcNeRole": "cloudcpe"
+        }]
+    },
+    "response": {
+        "status": 200,
+        "json": null
+    }
+}

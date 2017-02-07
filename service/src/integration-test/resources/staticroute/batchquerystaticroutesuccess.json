@@ -1,0 +1,14 @@
+{
+    "request": {
+        "uri": "/openoapi/sdnoroute/v1/static-routes/batch-query",
+        "method": "post",
+        "headers": {
+            "Content-Type": "application/json;charset=UTF-8"
+        },
+        "json": ["abcdefgtest"]
+    },
+    "response": {
+        "status": 200,
+        "json": null
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "request": {
+        "uri": "/openoapi/sdnoroute/v1/nqas/action",
+        "method": "post",
+        "headers": {
+            "Content-Type": "application/json;charset=UTF-8"
+        },
+        "json": {
+			"undeploy": [
+				"aaaaaaa"
+			]
+		}
+    },
+    "response": {
+        "status": 500,
+        "json": null
+    }
+}

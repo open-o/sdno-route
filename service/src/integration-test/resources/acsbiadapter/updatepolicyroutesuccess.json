@@ -1,0 +1,44 @@
+{
+	"request": {
+		"uri": "/openoapi/sbi-route/v1/batch-update-policy-routes",
+		"method": "post",
+		"headers": {
+			"Content-Type": "application/json;charset=UTF-8",
+			"X-Driver-Parameter": "extSysID=123"
+		},
+		"json": null
+	},
+	"response": {
+		"status": 200,
+		"json": {
+			"errorCode": "overlayvpn.operation.success",
+			"descArg": "",
+			"reasonArg": "",
+			"detailArg": "",
+			"adviceArg": "",
+			"httpCode": 500,
+			"message": "",
+			"smallErrorCodeList": null,
+			"successed": [
+				{
+					"id": "abcdefgtest",
+					"tenantId": "tenantid",
+					"name": "vpn1",
+					"description": "test",
+					"deployStatus": "deploy",
+					"actionState": "None",
+					"activeStatus": "inactive",
+					"connectionId": "connectionId",
+					"type": "policy",
+					"trafficPolicyName": "mqc2",
+					"filterAction": "filterAction",
+					"interfaceName": "vlanif1",
+					"direction": "inbound",
+					"nbiNeRouteId": "abcdefgtest"
+				}
+			],
+			"fail": null,
+			"data": null
+		}
+	}
+}

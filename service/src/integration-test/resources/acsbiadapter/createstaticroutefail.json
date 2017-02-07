@@ -1,0 +1,49 @@
+{
+	"request": {
+		"uri": "/openoapi/sbi-route/v1/batch-create-static-routes",
+		"method": "post",
+		"headers": {
+			"Content-Type": "application/json;charset=UTF-8",
+			"X-Driver-Parameter": "extSysID=123"
+		},
+		"json": null
+	},
+	"response": {
+		"status": 500,
+		"json": {
+			"errorCode": "overlayvpn.operation.failed",
+			"descArg": "",
+			"reasonArg": "",
+			"detailArg": "",
+			"adviceArg": "",
+			"httpCode": 500,
+			"message": "",
+			"smallErrorCodeList": null,
+			"successed": null,
+			"fail": [
+				{
+					"errcode": "overlayvpn.operation.failed",
+					"errmsg": "",
+					"data": {
+						"id": "aaa111111",
+						"tenantId": "tenantid",
+						"name": "vpn1",
+						"description": "test ipsec",
+						"deployStatus": "deploy",
+						"actionState": "None",
+						"activeStatus": "inactive",
+						"connectionId": "connectionId",
+						"type": "static",
+						"enableDhcp": "false",
+						"destIp": "{\"ipv4\":\"10.192.10.1\",\"ipv6\":null,\"ipMask\":\"24\",\"prefixLength\":null,\"neId\":null,\"deviceId\":null,\"routeId\":null,\"id\":null}",
+						"nextHop": "{\"ipv4\":\"10.192.10.2\",\"ipv6\":null,\"ipMask\":\"24\",\"prefixLength\":null,\"neId\":null,\"deviceId\":null,\"routeId\":null,\"id\":null}",
+						"outInterface": "",
+						"priority": "30",
+						"nbiNeRouteId": "abcdeftest"
+					}
+				}
+			],
+			"data": null
+		}
+	}
+}

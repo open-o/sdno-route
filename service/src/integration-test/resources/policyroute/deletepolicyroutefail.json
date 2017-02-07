@@ -1,0 +1,14 @@
+{
+    "request": {
+        "uri": "/openoapi/sdnoroute/v1/policy-routes/aa****bb",
+        "method": "delete",
+        "headers": {
+            "Content-Type": "application/json;charset=UTF-8"
+        },
+        "json": null
+    },
+    "response": {
+        "status": 400,
+        "json": null
+    }
+}

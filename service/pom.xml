@@ -147,7 +147,6 @@
 
     <build>
         <finalName>${package.name}</finalName>
-        <testSourceDirectory>src/integration-test/java</testSourceDirectory>
     </build>
 
     <name>sdno-route/service</name>

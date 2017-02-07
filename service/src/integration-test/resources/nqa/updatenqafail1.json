@@ -1,0 +1,28 @@
+{
+    "request": {
+        "uri": "/openoapi/sdnoroute/v1/nqas",
+        "method": "put",
+        "headers": {
+            "Content-Type": "application/json;charset=UTF-8"
+        },
+        "json": [{
+        	"id": "aa****bb",
+            "tenantId": "tenantid",
+            "name": "vpn1",
+            "description": "test",
+            "deployStatus": "deploy",
+            "actionState": "None",
+            "activeStatus": "inactive",
+            "neId": "neid",
+            "dstIp": "10.23.36.99",
+            "testType": "ping",
+			"ttl": "50",
+			"interval": "20",
+            "neRole": "cloudcpe"
+        }]
+    },
+    "response": {
+        "status": 400,
+        "json": null
+    }
+}

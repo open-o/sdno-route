@@ -1,0 +1,19 @@
+[
+	{
+		"id": "NeId",
+		"controllerName": "SdnController",
+		"name": "Ne1",
+		"description": "TestNetworkElement",
+		"productName": "SNC",
+		"isVirtual": "true",
+		"source": "os",
+		"version": "V1R3",
+		"logicID": "849494949",
+		"phyNeID": "8965969966906",
+		"nativeID": "TestDeviceId",
+		"ipAddress": "192.168.1.1",
+		"adminState": "active",
+		"operState": "up",
+		"tenantID": "testTenantID"
+	}
+]

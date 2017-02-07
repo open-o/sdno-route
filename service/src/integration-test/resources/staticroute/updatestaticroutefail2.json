@@ -1,0 +1,31 @@
+{
+    "request": {
+        "uri": "/openoapi/sdnoroute/v1/static-routes",
+        "method": "put",
+        "headers": {
+            "Content-Type": "application/json;charset=UTF-8"
+        },
+        "json": [{
+        	"id": "notexistid",
+            "tenantId": "tenantid",
+            "name": "vpn1",
+            "description": "test",
+            "deployStatus": "deploy",
+            "actionState": "None",
+            "activeStatus": "inactive",
+            "srcNeId": "neId",
+            "connectionId": "connectionId",
+            "type": "static",
+            "enableDhcp": "false",
+            "destIp": "{\"ipv4\":\"10.192.10.1\",\"ipv6\":null,\"ipMask\":\"24\",\"prefixLength\":null,\"neId\":null,\"deviceId\":null,\"routeId\":null,\"id\":null}",
+            "nextHop": "{\"ipv4\":\"10.192.10.2\",\"ipv6\":null,\"ipMask\":\"24\",\"prefixLength\":null,\"neId\":null,\"deviceId\":null,\"routeId\":null,\"id\":null}",
+            "outInterfaceName": "",
+            "priority": "30",
+            "srcNeRole": "cloudcpe"
+        }]
+    },
+    "response": {
+        "status": 500,
+        "json": null
+    }
+}

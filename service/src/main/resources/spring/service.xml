@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2017 Huawei Technologies Co., Ltd.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:osgi="http://www.springframework.org/schema/osgi" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/context
+     http://www.springframework.org/schema/context/spring-context.xsd
+     http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+
+    <!-- these are included in the dependency jar -->
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+    <!-- jar rest server registration -->
+    <jaxrs:server id="restContainer" address="/">
+        <!-- registering beans -->
+        <jaxrs:serviceBeans>
+            <ref bean="staticRouteRoaResource"></ref>
+            <ref bean="policyRouteRoaResource"></ref>
+            <ref bean="nqaRoaResource"></ref>
+            <ref bean="SwaggerRoaResource"></ref>
+        </jaxrs:serviceBeans>
+        <!-- registering providers -->
+        <jaxrs:providers>
+            <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+            <bean class="org.openo.sdno.exception.GenericExceptionMapper" />
+            <bean class="org.openo.sdno.exception.ServiceExceptionMapper" />
+        </jaxrs:providers>
+    </jaxrs:server>
+
+    <bean id="sbiStaticRouteSvc" class="org.openo.sdno.routeservice.sbi.impl.StaticRouteSbiSvcImpl"></bean>
+    <bean id="sbiPolicyRouteSvc" class="org.openo.sdno.routeservice.sbi.impl.PolicyRouteSbiSvcImpl"></bean>
+    <bean id="sbiNqaSvc" class="org.openo.sdno.routeservice.sbi.impl.NqaSbiSvcImpl"></bean>
+
+    <bean id="staticRouteSvc" class="org.openo.sdno.routeservice.service.impl.StaticRouteSvcImpl">
+        <property name="sbiStaticRouteSvc" ref="sbiStaticRouteSvc"></property>
+    </bean>
+    <bean id="policyRouteSvc" class="org.openo.sdno.routeservice.service.impl.PolicyRouteSvcImpl">
+        <property name="sbiPolicyRouteSvc" ref="sbiPolicyRouteSvc"></property>
+    </bean>
+    <bean id="nqaSvc" class="org.openo.sdno.routeservice.service.impl.NqaSvcImpl">
+        <property name="sbiNqaSvc" ref="sbiNqaSvc"></property>
+    </bean>
+
+    <bean id="SwaggerRoaResource" class="org.openo.sdno.routeservice.rest.SwaggerRoa">
+    </bean>
+    <bean id="staticRouteRoaResource" class="org.openo.sdno.routeservice.rest.StaticRouteRoaResource">
+        <property name="staticRouteSvc" ref="staticRouteSvc"></property>
+    </bean>
+    <bean id="policyRouteRoaResource" class="org.openo.sdno.routeservice.rest.PolicyRouteRoaResource">
+        <property name="policyRouteSvc" ref="policyRouteSvc"></property>
+    </bean>
+    <bean id="nqaRoaResource" class="org.openo.sdno.routeservice.rest.NqaRoaResource">
+        <property name="nqaSvc" ref="nqaSvc"></property>
+    </bean>
+
+    <bean id="RouteRestModule" class="org.openo.sdno.routeservice.RouteRestModule" init-method="start"
+        destroy-method="stop">
+    </bean>
+
+</beans>

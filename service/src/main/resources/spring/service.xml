@@ -35,7 +35,6 @@
             <ref bean="staticRouteRoaResource"></ref>
             <ref bean="policyRouteRoaResource"></ref>
             <ref bean="nqaRoaResource"></ref>
-            <ref bean="SwaggerRoaResource"></ref>
         </jaxrs:serviceBeans>
         <!-- registering providers -->
         <jaxrs:providers>
@@ -59,8 +58,6 @@
         <property name="sbiNqaSvc" ref="sbiNqaSvc"></property>
     </bean>
 
-    <bean id="SwaggerRoaResource" class="org.openo.sdno.routeservice.rest.SwaggerRoa">
-    </bean>
     <bean id="staticRouteRoaResource" class="org.openo.sdno.routeservice.rest.StaticRouteRoaResource">
         <property name="staticRouteSvc" ref="staticRouteSvc"></property>
     </bean>

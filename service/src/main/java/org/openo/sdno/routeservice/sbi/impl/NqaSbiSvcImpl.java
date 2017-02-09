@@ -79,7 +79,7 @@ public class NqaSbiSvcImpl implements NqaSbiService {
                 RestfulParametesUtil.getRestfulParametesWithBody(JsonUtil.toJson(sbiNqa), ctrlUuid);
 
         String url = UrlAdapterConst.ROUTE_ADAPTER_BASE_URL
-                + MessageFormat.format(UrlAdapterConst.DELETE_POLICY_NQA, deviceId);
+                + MessageFormat.format(UrlAdapterConst.CREATE_POLICY_NQA, deviceId);
 
         LOGGER.info("deployNqa begin: " + url + "\n" + restfulParametes.getRawData());
 
@@ -129,11 +129,11 @@ public class NqaSbiSvcImpl implements NqaSbiService {
                 RestfulParametesUtil.getRestfulParametesWithBody(JsonUtil.toJson(sbiNqa), ctrlUuid);
 
         String url = UrlAdapterConst.ROUTE_ADAPTER_BASE_URL
-                + MessageFormat.format(UrlAdapterConst.DELETE_POLICY_NQA, deviceId);
+                + MessageFormat.format(UrlAdapterConst.UPDATE_POLICY_NQA, deviceId);
 
         LOGGER.info("updateNqa begin: " + url + "\n" + restfulParametes.getRawData());
 
-        RestfulResponse response = RestfulProxy.post(url, restfulParametes);
+        RestfulResponse response = RestfulProxy.put(url, restfulParametes);
 
         LOGGER.info("status: " + response.getStatus() + " content: " + response.getResponseContent());
 
@@ -154,7 +154,7 @@ public class NqaSbiSvcImpl implements NqaSbiService {
                 RestfulParametesUtil.getRestfulParametesWithBody(JsonUtil.toJson(Arrays.asList(sbiNqa)), ctrlUuid);
 
         String url = UrlAdapterConst.ROUTE_ADAPTER_BASE_URL
-                + MessageFormat.format(UrlAdapterConst.DELETE_POLICY_NQA, deviceId);
+                + MessageFormat.format(UrlAdapterConst.QUERY_POLICY_NQA, deviceId);
 
         LOGGER.info("queryNqa begin: " + url + "\n" + restfulParametes.getRawData());
 

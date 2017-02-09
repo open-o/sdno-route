@@ -1,7 +1,7 @@
 {
 	"request": {
 		"uri": "/openoapi/sbi-route/v1/batch-update-static-routes",
-		"method": "post",
+		"method": "put",
 		"headers": {
 			"Content-Type": "application/json;charset=UTF-8",
 			"X-Driver-Parameter": "extSysID=123"

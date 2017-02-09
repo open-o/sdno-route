@@ -1,7 +1,7 @@
 {
 	"request": {
 		"uri": "/openoapi/sbi-route/v1/device/[a-zA-Z0-9\\-\\_]{1,36}/batch-update-nqa",
-		"method": "post",
+		"method": "put",
 		"headers": {
 			"Content-Type": "application/json;charset=UTF-8",
 			"X-Driver-Parameter": "extSysID=123"

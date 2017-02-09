@@ -130,7 +130,7 @@ public class PolicyRouteSbiSvcImpl implements PolicyRouteSbiService {
 
         LOGGER.info("updateRoutes begin: " + url + "\n" + restfulParametes.getRawData());
 
-        RestfulResponse response = RestfulProxy.post(url, restfulParametes);
+        RestfulResponse response = RestfulProxy.put(url, restfulParametes);
 
         LOGGER.info("status: " + response.getStatus() + " content: " + response.getResponseContent());
 

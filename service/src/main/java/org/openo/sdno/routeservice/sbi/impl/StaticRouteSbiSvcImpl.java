@@ -24,11 +24,9 @@ import org.codehaus.jackson.type.TypeReference;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.baseservice.roa.util.restclient.RestfulParametes;
 import org.openo.baseservice.roa.util.restclient.RestfulResponse;
-import org.openo.sdno.exception.HttpCode;
 import org.openo.sdno.framework.container.resthelper.RestfulProxy;
 import org.openo.sdno.framework.container.util.JsonUtil;
 import org.openo.sdno.overlayvpn.consts.UrlAdapterConst;
-import org.openo.sdno.overlayvpn.errorcode.ErrorCode;
 import org.openo.sdno.overlayvpn.model.v2.route.SbiNeStaticRoute;
 import org.openo.sdno.overlayvpn.result.ResultRsp;
 import org.openo.sdno.rest.ResponseUtils;
@@ -59,10 +57,8 @@ public class StaticRouteSbiSvcImpl implements StaticRouteSbiService {
         LOGGER.info("createRoutes begin: " + url + "\n" + restfulParametes.getRawData());
 
         RestfulResponse response = RestfulProxy.post(url, restfulParametes);
-        if(response.getStatus() == HttpCode.NOT_FOUND) {
-            return new ResultRsp<SbiNeStaticRoute>(ErrorCode.RESTFUL_COMMUNICATION_FAILED, null, null,
-                    "connect to controller failed", "connect to controller failed, please check");
-        }
+
+        LOGGER.info("status: " + response.getStatus() + " content: " + response.getResponseContent());
 
         String rspContent = ResponseUtils.transferResponse(response);
         ResultRsp<SbiNeStaticRoute> restResult =
@@ -134,7 +130,7 @@ public class StaticRouteSbiSvcImpl implements StaticRouteSbiService {
 
         LOGGER.info("updateRoutes begin: " + url + "\n" + restfulParametes.getRawData());
 
-        RestfulResponse response = RestfulProxy.post(url, restfulParametes);
+        RestfulResponse response = RestfulProxy.put(url, restfulParametes);
 
         LOGGER.info("status: " + response.getStatus() + " content: " + response.getResponseContent());
 

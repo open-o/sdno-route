@@ -69,7 +69,7 @@ public class CheckPolicyRoute {
 
     private static void checkDataAndModel(List<NbiNePolicyRoute> nbiRoutes) throws ServiceException {
 
-        Set<String> infDirectionSet = new HashSet<String>();
+        Set<String> infDirectionSet = new HashSet<>();
 
         for(NbiNePolicyRoute route : nbiRoutes) {
 

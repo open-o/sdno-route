@@ -100,7 +100,7 @@ public class StaticRouteRoaResource {
 
         if(CollectionUtils.isEmpty(uuidList)) {
             LOGGER.warn("Input uuid list is empty.");
-            return new ArrayList<NbiNeStaticRoute>();
+            return new ArrayList<>();
         }
 
         if(uuidList.size() > QUERY_MAX_LENGTH) {
@@ -114,8 +114,8 @@ public class StaticRouteRoaResource {
 
         ResultRsp<List<NbiNeStaticRoute>> resultRsp = staticRouteSvc.batchQuery(req, resp, uuidList);
 
-        LOGGER.info(
-                "Exit batch query static routes method. cost time(ms): " + (System.currentTimeMillis() - infterEnterTime));
+        LOGGER.info("Exit batch query static routes method. cost time(ms): "
+                + (System.currentTimeMillis() - infterEnterTime));
 
         return resultRsp.getData();
     }
@@ -145,7 +145,8 @@ public class StaticRouteRoaResource {
 
         ResultRsp<NbiNeStaticRoute> resultRsp = staticRouteSvc.query(req, resp, routeId);
 
-        LOGGER.info("Exit query static routes method. cost time(ms): " + (System.currentTimeMillis() - infterEnterTime));
+        LOGGER.info(
+                "Exit query static routes method. cost time(ms): " + (System.currentTimeMillis() - infterEnterTime));
 
         return resultRsp.getData();
     }
@@ -170,24 +171,25 @@ public class StaticRouteRoaResource {
 
         if(CollectionUtils.isEmpty(nbiRoutes)) {
             LOGGER.warn("Input body is empty.");
-            return new ArrayList<NbiNeStaticRoute>();
+            return new ArrayList<>();
         }
 
         LOGGER.info("Create body is :" + JsonUtil.toJson(nbiRoutes));
 
-        Map<String, NetworkElementMO> neIdToNeMoMap = new HashMap<String, NetworkElementMO>();
+        Map<String, NetworkElementMO> neIdToNeMoMap = new HashMap<>();
         CheckStaticRoute.check(nbiRoutes, neIdToNeMoMap);
 
         NbiNeStaticRouteDbOper.insert(nbiRoutes);
 
-        List<SbiNeStaticRoute> sbiRoutes = new ArrayList<SbiNeStaticRoute>();
+        List<SbiNeStaticRoute> sbiRoutes = new ArrayList<>();
         StaticRouteNbiToSbi.convertNbiToSbiModel(nbiRoutes, sbiRoutes, neIdToNeMoMap);
 
         SbiNeStaticRouteDbOper.insert(sbiRoutes);
 
         ResultRsp<NbiNeStaticRoute> resultRsp = staticRouteSvc.create(req, resp, nbiRoutes, sbiRoutes);
 
-        LOGGER.info("Exit create static routes method. cost time(ms): " + (System.currentTimeMillis() - infterEnterTime));
+        LOGGER.info(
+                "Exit create static routes method. cost time(ms): " + (System.currentTimeMillis() - infterEnterTime));
 
         return resultRsp.getSuccessed();
     }
@@ -211,7 +213,7 @@ public class StaticRouteRoaResource {
 
         long infterEnterTime = System.currentTimeMillis();
 
-        ResultRsp<String> rsp = new ResultRsp<String>();
+        ResultRsp<String> rsp = null;
         if(!CollectionUtils.isEmpty(nbiActionModel.getDeploy())) {
 
             rsp = staticRouteSvc.deploy(req, resp, nbiActionModel.getDeploy());
@@ -250,17 +252,18 @@ public class StaticRouteRoaResource {
 
         if(CollectionUtils.isEmpty(nbiRoutes)) {
             LOGGER.warn("Input body is empty.");
-            return new ArrayList<NbiNeStaticRoute>();
+            return new ArrayList<>();
         }
 
         LOGGER.info("Update body is :" + JsonUtil.toJson(nbiRoutes));
 
-        Map<String, NetworkElementMO> neIdToNeMoMap = new HashMap<String, NetworkElementMO>();
+        Map<String, NetworkElementMO> neIdToNeMoMap = new HashMap<>();
         CheckStaticRoute.check(nbiRoutes, neIdToNeMoMap);
 
         ResultRsp<NbiNeStaticRoute> resultRsp = staticRouteSvc.update(req, resp, nbiRoutes);
 
-        LOGGER.info("Exit update static routes method. cost time(ms): " + (System.currentTimeMillis() - infterEnterTime));
+        LOGGER.info(
+                "Exit update static routes method. cost time(ms): " + (System.currentTimeMillis() - infterEnterTime));
 
         return resultRsp.getSuccessed();
     }
@@ -290,7 +293,8 @@ public class StaticRouteRoaResource {
 
         staticRouteSvc.delete(req, resp, routeId);
 
-        LOGGER.info("Exit delete static routes method. cost time(ms): " + (System.currentTimeMillis() - infterEnterTime));
+        LOGGER.info(
+                "Exit delete static routes method. cost time(ms): " + (System.currentTimeMillis() - infterEnterTime));
 
         return routeId;
     }

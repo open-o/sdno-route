@@ -100,7 +100,7 @@ public class NqaRoaResource {
 
         if(CollectionUtils.isEmpty(uuidList)) {
             LOGGER.warn("Input uuid list is empty.");
-            return new ArrayList<NbiNqa>();
+            return new ArrayList<>();
         }
 
         if(uuidList.size() > QUERY_MAX_LENGTH) {
@@ -169,17 +169,17 @@ public class NqaRoaResource {
 
         if(CollectionUtils.isEmpty(nbiRoutes)) {
             LOGGER.warn("Input body is empty.");
-            return new ArrayList<NbiNqa>();
+            return new ArrayList<>();
         }
 
         LOGGER.info("Create body is :" + JsonUtil.toJson(nbiRoutes));
 
-        Map<String, NetworkElementMO> neIdToNeMoMap = new HashMap<String, NetworkElementMO>();
+        Map<String, NetworkElementMO> neIdToNeMoMap = new HashMap<>();
         CheckNqa.check(nbiRoutes, neIdToNeMoMap);
 
         NbiNqaDbOper.insert(nbiRoutes);
 
-        List<SbiNqa> sbiRoutes = new ArrayList<SbiNqa>();
+        List<SbiNqa> sbiRoutes = new ArrayList<>();
         NqaNbiToSbi.convertNbiToSbiModel(nbiRoutes, sbiRoutes, neIdToNeMoMap);
 
         SbiNqaDbOper.insert(sbiRoutes);
@@ -210,7 +210,7 @@ public class NqaRoaResource {
 
         long infterEnterTime = System.currentTimeMillis();
 
-        ResultRsp<String> rsp = new ResultRsp<String>();
+        ResultRsp<String> rsp = null;
         if(!CollectionUtils.isEmpty(nbiActionModel.getDeploy())) {
 
             rsp = nqaSvc.deploy(req, resp, nbiActionModel.getDeploy());
@@ -223,7 +223,8 @@ public class NqaRoaResource {
             throw new ParameterServiceException("Action body is empty.");
         }
 
-        LOGGER.info("Exit deploy/undeploy NQA method. cost time(ms): " + (System.currentTimeMillis() - infterEnterTime));
+        LOGGER.info(
+                "Exit deploy/undeploy NQA method. cost time(ms): " + (System.currentTimeMillis() - infterEnterTime));
 
         return rsp.getSuccessed();
     }
@@ -248,12 +249,12 @@ public class NqaRoaResource {
 
         if(CollectionUtils.isEmpty(nbiRoutes)) {
             LOGGER.warn("Input body is empty.");
-            return new ArrayList<NbiNqa>();
+            return new ArrayList<>();
         }
 
         LOGGER.info("Update body is :" + JsonUtil.toJson(nbiRoutes));
 
-        Map<String, NetworkElementMO> neIdToNeMoMap = new HashMap<String, NetworkElementMO>();
+        Map<String, NetworkElementMO> neIdToNeMoMap = new HashMap<>();
         CheckNqa.check(nbiRoutes, neIdToNeMoMap);
 
         ResultRsp<NbiNqa> resultRsp = nqaSvc.update(req, resp, nbiRoutes);

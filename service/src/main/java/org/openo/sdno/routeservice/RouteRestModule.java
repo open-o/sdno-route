@@ -33,7 +33,7 @@ public class RouteRestModule extends IRoaModule {
 
     @Override
     protected void destroy() {
-        // TODO Auto-generated method stub
+        LOGGER.info("=====stop route svc roa module=====");
     }
 
     @Override

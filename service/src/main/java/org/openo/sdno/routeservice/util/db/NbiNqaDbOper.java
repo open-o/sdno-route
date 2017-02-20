@@ -88,7 +88,7 @@ public class NbiNqaDbOper {
      */
     public static void updateNbiBySbiModel(List<NbiNqa> nbiNqas, List<SbiNqa> sbiNqas) throws ServiceException {
 
-        List<NbiNqa> updateList = new ArrayList<NbiNqa>();
+        List<NbiNqa> updateList = new ArrayList<>();
 
         for(NbiNqa tempNbiRoute : nbiNqas) {
             for(SbiNqa tempSbiRoute : sbiNqas) {
@@ -123,7 +123,7 @@ public class NbiNqaDbOper {
      */
     public static ResultRsp<List<NbiNqa>> batchQuery(List<String> uuidList) throws ServiceException {
 
-        Map<String, List<String>> filterMap = new HashMap<String, List<String>>();
+        Map<String, List<String>> filterMap = new HashMap<>();
         filterMap.put(UUID, uuidList);
 
         return new InventoryDaoUtil<NbiNqa>().getInventoryDao().queryByFilter(NbiNqa.class, JsonUtil.toJson(filterMap),
@@ -141,7 +141,7 @@ public class NbiNqaDbOper {
     @SuppressWarnings("unchecked")
     public static ResultRsp<List<NbiNqa>> queryNbiByModel(List<NbiNqa> nbiNqas) throws ServiceException {
 
-        List<String> nbiRouteIds = new ArrayList<String>(CollectionUtils.collect(nbiNqas, new Transformer() {
+        List<String> nbiRouteIds = new ArrayList<>(CollectionUtils.collect(nbiNqas, new Transformer() {
 
             @Override
             public Object transform(Object arg0) {
@@ -149,7 +149,7 @@ public class NbiNqaDbOper {
             }
         }));
 
-        Map<String, Object> filterMap = new HashMap<String, Object>();
+        Map<String, Object> filterMap = new HashMap<>();
         filterMap.put("uuid", nbiRouteIds);
 
         String filter = JsonUtil.toJson(filterMap);
@@ -180,7 +180,7 @@ public class NbiNqaDbOper {
      */
     public static void updateNbiNqa(List<NbiNqa> nbiNqas, List<SbiNqa> sbiNqas) throws ServiceException {
 
-        List<SbiRouteNetModel> sbiNetModels = new ArrayList<SbiRouteNetModel>();
+        List<SbiRouteNetModel> sbiNetModels = new ArrayList<>();
         sbiNetModels.addAll(sbiNqas);
 
         for(NbiNqa tempRoute : nbiNqas) {

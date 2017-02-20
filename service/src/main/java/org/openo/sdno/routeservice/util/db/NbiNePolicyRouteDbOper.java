@@ -90,7 +90,7 @@ public class NbiNePolicyRouteDbOper {
     public static void updateNbiBySbiModel(List<NbiNePolicyRoute> nbiRoutes, List<SbiNePolicyRoute> sbiRoutes)
             throws ServiceException {
 
-        List<NbiNePolicyRoute> updateList = new ArrayList<NbiNePolicyRoute>();
+        List<NbiNePolicyRoute> updateList = new ArrayList<>();
 
         for(NbiNePolicyRoute tempNbiRoute : nbiRoutes) {
             for(SbiNePolicyRoute tempSbiRoute : sbiRoutes) {
@@ -125,7 +125,7 @@ public class NbiNePolicyRouteDbOper {
      */
     public static ResultRsp<List<NbiNePolicyRoute>> batchQuery(List<String> uuidList) throws ServiceException {
 
-        Map<String, List<String>> filterMap = new HashMap<String, List<String>>();
+        Map<String, List<String>> filterMap = new HashMap<>();
         filterMap.put(UUID, uuidList);
 
         return new InventoryDaoUtil<NbiNePolicyRoute>().getInventoryDao().queryByFilter(NbiNePolicyRoute.class,
@@ -144,7 +144,7 @@ public class NbiNePolicyRouteDbOper {
     public static ResultRsp<List<NbiNePolicyRoute>> queryNbiByModel(List<NbiNePolicyRoute> nbiRoutes)
             throws ServiceException {
 
-        List<String> nbiRouteIds = new ArrayList<String>(CollectionUtils.collect(nbiRoutes, new Transformer() {
+        List<String> nbiRouteIds = new ArrayList<>(CollectionUtils.collect(nbiRoutes, new Transformer() {
 
             @Override
             public Object transform(Object arg0) {
@@ -152,7 +152,7 @@ public class NbiNePolicyRouteDbOper {
             }
         }));
 
-        Map<String, Object> filterMap = new HashMap<String, Object>();
+        Map<String, Object> filterMap = new HashMap<>();
         filterMap.put("uuid", nbiRouteIds);
 
         String filter = JsonUtil.toJson(filterMap);
@@ -185,7 +185,7 @@ public class NbiNePolicyRouteDbOper {
     public static void updateNbiRoutes(List<NbiNePolicyRoute> nbiRoutes, List<SbiNePolicyRoute> sbiRoutes)
             throws ServiceException {
 
-        List<SbiRouteNetModel> sbiNetModels = new ArrayList<SbiRouteNetModel>();
+        List<SbiRouteNetModel> sbiNetModels = new ArrayList<>();
         sbiNetModels.addAll(sbiRoutes);
 
         for(NbiNePolicyRoute tempRoute : nbiRoutes) {

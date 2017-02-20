@@ -58,7 +58,7 @@ public class StaticRouteSbiSvcImpl implements StaticRouteSbiService {
 
         RestfulResponse response = RestfulProxy.post(url, restfulParametes);
 
-        LOGGER.info("status: " + response.getStatus() + " content: " + response.getResponseContent());
+        LOGGER.info("createRoutes response: " + response.getStatus() + response.getResponseContent());
 
         String rspContent = ResponseUtils.transferResponse(response);
         ResultRsp<SbiNeStaticRoute> restResult =
@@ -82,7 +82,7 @@ public class StaticRouteSbiSvcImpl implements StaticRouteSbiService {
 
         RestfulResponse response = RestfulProxy.post(url, restfulParametes);
 
-        LOGGER.info("status: " + response.getStatus() + " content: " + response.getResponseContent());
+        LOGGER.info("deployRoutes response: " + response.getStatus() + response.getResponseContent());
 
         String rspContent = ResponseUtils.transferResponse(response);
         ResultRsp<SbiNeStaticRoute> restResult =
@@ -108,7 +108,7 @@ public class StaticRouteSbiSvcImpl implements StaticRouteSbiService {
 
         RestfulResponse response = RestfulProxy.post(url, restfulParametes);
 
-        LOGGER.info("status: " + response.getStatus() + " content: " + response.getResponseContent());
+        LOGGER.info("undeployRoutes response: " + response.getStatus() + response.getResponseContent());
 
         String rspContent = ResponseUtils.transferResponse(response);
         ResultRsp<SbiNeStaticRoute> restResult =
@@ -132,7 +132,7 @@ public class StaticRouteSbiSvcImpl implements StaticRouteSbiService {
 
         RestfulResponse response = RestfulProxy.put(url, restfulParametes);
 
-        LOGGER.info("status: " + response.getStatus() + " content: " + response.getResponseContent());
+        LOGGER.info("updateRoutes response: " + response.getStatus() + response.getResponseContent());
 
         String rspContent = ResponseUtils.transferResponse(response);
         ResultRsp<SbiNeStaticRoute> restResult =
@@ -156,7 +156,7 @@ public class StaticRouteSbiSvcImpl implements StaticRouteSbiService {
 
         RestfulResponse response = RestfulProxy.post(url, restfulParametes);
 
-        LOGGER.info("status: " + response.getStatus() + " content: " + response.getResponseContent());
+        LOGGER.info("queryRoutes response: " + response.getStatus() + response.getResponseContent());
 
         String rspContent = ResponseUtils.transferResponse(response);
         ResultRsp<SbiNeStaticRoute> restResult =

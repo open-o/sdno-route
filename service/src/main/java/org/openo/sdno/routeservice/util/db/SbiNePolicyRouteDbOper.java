@@ -29,6 +29,7 @@ import org.openo.sdno.framework.container.util.JsonUtil;
 import org.openo.sdno.overlayvpn.inventory.sdk.util.InventoryDaoUtil;
 import org.openo.sdno.overlayvpn.model.common.enums.ActionStatus;
 import org.openo.sdno.overlayvpn.model.common.enums.AdminStatus;
+import org.openo.sdno.overlayvpn.model.common.enums.DeployStatus;
 import org.openo.sdno.overlayvpn.model.v2.route.NbiNePolicyRoute;
 import org.openo.sdno.overlayvpn.model.v2.route.SbiNePolicyRoute;
 import org.openo.sdno.overlayvpn.result.FailData;
@@ -109,7 +110,7 @@ public class SbiNePolicyRouteDbOper {
     public static ResultRsp<List<SbiNePolicyRoute>> querySbiByNbiModel(List<NbiNePolicyRoute> nbiRoutes)
             throws ServiceException {
 
-        List<String> nbiRouteIds = new ArrayList<String>(CollectionUtils.collect(nbiRoutes, new Transformer() {
+        List<String> nbiRouteIds = new ArrayList<>(CollectionUtils.collect(nbiRoutes, new Transformer() {
 
             @Override
             public Object transform(Object arg0) {
@@ -117,7 +118,7 @@ public class SbiNePolicyRouteDbOper {
             }
         }));
 
-        Map<String, Object> filterMap = new HashMap<String, Object>();
+        Map<String, Object> filterMap = new HashMap<>();
         filterMap.put("nbiNeRouteId", nbiRouteIds);
 
         String filter = JsonUtil.toJson(filterMap);
@@ -141,9 +142,8 @@ public class SbiNePolicyRouteDbOper {
             return;
         }
 
-        SbiNePolicyRoute SbiNePolicyRoute = queryDbRsp.getData().get(0);
-        new InventoryDaoUtil<SbiNePolicyRoute>().getInventoryDao().delete(SbiNePolicyRoute.class,
-                SbiNePolicyRoute.getUuid());
+        SbiNePolicyRoute sbiRoute = queryDbRsp.getData().get(0);
+        new InventoryDaoUtil<SbiNePolicyRoute>().getInventoryDao().delete(SbiNePolicyRoute.class, sbiRoute.getUuid());
     }
 
     /**
@@ -154,7 +154,7 @@ public class SbiNePolicyRouteDbOper {
      * @since SDNO 0.5
      */
     public static void delete(List<SbiNePolicyRoute> sbiRoutes) throws ServiceException {
-        List<String> uuidList = new ArrayList<String>();
+        List<String> uuidList = new ArrayList<>();
 
         if(!CollectionUtils.isEmpty(sbiRoutes)) {
             for(SbiNePolicyRoute route : sbiRoutes) {
@@ -192,11 +192,11 @@ public class SbiNePolicyRouteDbOper {
             return;
         }
 
-        List<SbiNePolicyRoute> updateList = new ArrayList<SbiNePolicyRoute>();
+        List<SbiNePolicyRoute> updateList = new ArrayList<>();
         for(SbiNePolicyRoute tempRoute : sbiRoutes) {
             for(SbiNePolicyRoute tempSuccRoute : succRoutes) {
                 if(tempRoute.getUuid().equals(tempSuccRoute.getUuid())) {
-                    tempRoute.setDeployStatus("deploy");
+                    tempRoute.setDeployStatus(DeployStatus.DEPLOY.getName());
                     tempRoute.setOperationStatus(ActionStatus.NORMAL.getName());
                     tempRoute.setActiveStatus(AdminStatus.ACTIVE.getName());
                     tempRoute.setExternalId(tempSuccRoute.getExternalId());
@@ -225,11 +225,11 @@ public class SbiNePolicyRouteDbOper {
             return;
         }
 
-        List<SbiNePolicyRoute> updateList = new ArrayList<SbiNePolicyRoute>();
+        List<SbiNePolicyRoute> updateList = new ArrayList<>();
         for(SbiNePolicyRoute tempRoute : sbiRoutes) {
             for(FailData<SbiNePolicyRoute> tempFailRoute : failRoutes) {
                 if(tempRoute.getUuid().equals(tempFailRoute.getData().getUuid())) {
-                    tempRoute.setDeployStatus("undeploy");
+                    tempRoute.setDeployStatus(DeployStatus.UNDEPLOY.getName());
                     tempRoute.setOperationStatus(ActionStatus.CREATE_EXCEPTION.getName());
                     updateList.add(tempRoute);
                     break;
@@ -257,11 +257,11 @@ public class SbiNePolicyRouteDbOper {
             return;
         }
 
-        List<SbiNePolicyRoute> updateList = new ArrayList<SbiNePolicyRoute>();
+        List<SbiNePolicyRoute> updateList = new ArrayList<>();
         for(SbiNePolicyRoute tempRoute : sbiRoutes) {
             for(SbiNePolicyRoute tempSuccRoute : succRoutes) {
                 if(tempRoute.getUuid().equals(tempSuccRoute.getUuid())) {
-                    tempRoute.setDeployStatus("undeploy");
+                    tempRoute.setDeployStatus(DeployStatus.UNDEPLOY.getName());
                     tempRoute.setOperationStatus(ActionStatus.NORMAL.getName());
                     updateList.add(tempRoute);
                     break;
@@ -289,7 +289,7 @@ public class SbiNePolicyRouteDbOper {
             return;
         }
 
-        List<SbiNePolicyRoute> updateList = new ArrayList<SbiNePolicyRoute>();
+        List<SbiNePolicyRoute> updateList = new ArrayList<>();
         for(SbiNePolicyRoute tempRoute : sbiRoutes) {
             for(FailData<SbiNePolicyRoute> tempFailRoute : failRoutes) {
                 if(tempRoute.getUuid().equals(tempFailRoute.getData().getUuid())) {
@@ -306,7 +306,7 @@ public class SbiNePolicyRouteDbOper {
 
     private static ResultRsp<List<SbiNePolicyRoute>> queryByFilter(String connectionId, String queryResultFields)
             throws ServiceException {
-        Map<String, Object> filterMap = new HashMap<String, Object>();
+        Map<String, Object> filterMap = new HashMap<>();
         if(StringUtils.hasLength(connectionId)) {
             filterMap.put("nbiNeRouteId", Arrays.asList(connectionId));
         }

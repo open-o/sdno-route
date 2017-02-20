@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
  * @version SDNO 0.5 Jan 9, 2017
  */
 public class StaticRouteMergeUtil {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(StaticRouteMergeUtil.class);
 
     private StaticRouteMergeUtil() {
@@ -54,12 +54,12 @@ public class StaticRouteMergeUtil {
      * @param rsp The create result
      * @return The result with NBI models
      * @throws ServiceException When merge result failed
-     * @since  SDNO 0.5
+     * @since SDNO 0.5
      */
     public static ResultRsp<NbiNeStaticRoute> mergeCreateResult(List<NbiNeStaticRoute> nbiRoutes,
             List<SbiNeStaticRoute> sbiRoutes, ResultRsp<SbiNeStaticRoute> rsp) throws ServiceException {
 
-        ResultRsp<NbiNeStaticRoute> resultRsp = new ResultRsp<NbiNeStaticRoute>();
+        ResultRsp<NbiNeStaticRoute> resultRsp = new ResultRsp<>();
 
         List<SbiNeStaticRoute> succRoutes = rsp.getSuccessed();
         List<FailData<SbiNeStaticRoute>> failRoutes = rsp.getFail();
@@ -80,12 +80,12 @@ public class StaticRouteMergeUtil {
      * @param rsp The deploy result
      * @return The result with NBI models UUID
      * @throws ServiceException When merge result failed
-     * @since  SDNO 0.5
+     * @since SDNO 0.5
      */
     public static ResultRsp<String> mergeDeployResult(List<NbiNeStaticRoute> nbiRoutes,
             List<SbiNeStaticRoute> sbiRoutes, ResultRsp<SbiNeStaticRoute> rsp) throws ServiceException {
 
-        ResultRsp<String> returnRsp = new ResultRsp<String>();
+        ResultRsp<String> returnRsp = new ResultRsp<>();
 
         List<SbiNeStaticRoute> succRoutes = rsp.getSuccessed();
         List<FailData<SbiNeStaticRoute>> failRoutes = rsp.getFail();
@@ -106,12 +106,12 @@ public class StaticRouteMergeUtil {
      * @param rsp The undeploy result
      * @return The result with NBI models UUID
      * @throws ServiceException When merge result failed
-     * @since  SDNO 0.5
+     * @since SDNO 0.5
      */
     public static ResultRsp<String> mergeUndeployResult(List<NbiNeStaticRoute> nbiRoutes,
             List<SbiNeStaticRoute> sbiRoutes, ResultRsp<SbiNeStaticRoute> rsp) throws ServiceException {
 
-        ResultRsp<String> returnRsp = new ResultRsp<String>();
+        ResultRsp<String> returnRsp = new ResultRsp<>();
 
         List<SbiNeStaticRoute> succRoutes = rsp.getSuccessed();
         List<FailData<SbiNeStaticRoute>> failRoutes = rsp.getFail();
@@ -131,12 +131,12 @@ public class StaticRouteMergeUtil {
      * @param rsp The update result
      * @return The result with NBI model UUID
      * @throws ServiceException When merge result failed
-     * @since  SDNO 0.5
+     * @since SDNO 0.5
      */
     public static ResultRsp<NbiNeStaticRoute> mergeUpdateResult(List<NbiNeStaticRoute> nbiRoutes,
             ResultRsp<SbiNeStaticRoute> rsp) throws ServiceException {
 
-        ResultRsp<NbiNeStaticRoute> resultRsp = new ResultRsp<NbiNeStaticRoute>();
+        ResultRsp<NbiNeStaticRoute> resultRsp = new ResultRsp<>();
 
         List<SbiNeStaticRoute> succRoutes = rsp.getSuccessed();
         List<FailData<SbiNeStaticRoute>> failRoutes = rsp.getFail();
@@ -148,10 +148,11 @@ public class StaticRouteMergeUtil {
     }
 
     private static ResultRsp<NbiNeStaticRoute> mergeCreateRsp(List<NbiNeStaticRoute> nbiRoutes,
-            ResultRsp<NbiNeStaticRoute> resultRsp, List<FailData<SbiNeStaticRoute>> failRoutes) throws ServiceException {
+            ResultRsp<NbiNeStaticRoute> resultRsp, List<FailData<SbiNeStaticRoute>> failRoutes)
+            throws ServiceException {
 
-        List<NbiNeStaticRoute> nbiSuccRoutes = new ArrayList<NbiNeStaticRoute>();
-        List<FailData<NbiNeStaticRoute>> nbifailRoutes = new ArrayList<FailData<NbiNeStaticRoute>>();
+        List<NbiNeStaticRoute> nbiSuccRoutes = new ArrayList<>();
+        List<FailData<NbiNeStaticRoute>> nbifailRoutes = new ArrayList<>();
 
         if(CollectionUtils.isEmpty(failRoutes)) {
             resultRsp.getSuccessed().addAll(nbiRoutes);
@@ -201,14 +202,14 @@ public class StaticRouteMergeUtil {
                     failRoute.getData().getNbiNeRouteId());
             resultRsp.getFail().add(tempFailData);
         }
-        
+
         if(CollectionUtils.isEmpty(resultRsp.getFail())) {
             resultRsp.setErrorCode(ErrorCode.OVERLAYVPN_SUCCESS);
         } else {
             LOGGER.error("Result failed. body: " + JsonUtil.toJson(resultRsp.getFail()));
             throw new ServiceException("Result failed. body: " + JsonUtil.toJson(resultRsp.getFail()));
         }
-        
+
         return resultRsp;
     }
 

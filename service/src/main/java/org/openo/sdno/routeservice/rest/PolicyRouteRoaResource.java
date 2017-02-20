@@ -100,7 +100,7 @@ public class PolicyRouteRoaResource {
 
         if(CollectionUtils.isEmpty(uuidList)) {
             LOGGER.warn("Input uuid list is empty.");
-            return new ArrayList<NbiNePolicyRoute>();
+            return new ArrayList<>();
         }
 
         if(uuidList.size() > QUERY_MAX_LENGTH) {
@@ -114,8 +114,8 @@ public class PolicyRouteRoaResource {
 
         ResultRsp<List<NbiNePolicyRoute>> resultRsp = policyRouteSvc.batchQuery(req, resp, uuidList);
 
-        LOGGER.info(
-                "Exit batch query policy routes method. cost time(ms): " + (System.currentTimeMillis() - infterEnterTime));
+        LOGGER.info("Exit batch query policy routes method. cost time(ms): "
+                + (System.currentTimeMillis() - infterEnterTime));
 
         return resultRsp.getData();
     }
@@ -145,7 +145,8 @@ public class PolicyRouteRoaResource {
 
         ResultRsp<NbiNePolicyRoute> resultRsp = policyRouteSvc.query(req, resp, routeId);
 
-        LOGGER.info("Exit query policy routes method. cost time(ms): " + (System.currentTimeMillis() - infterEnterTime));
+        LOGGER.info(
+                "Exit query policy routes method. cost time(ms): " + (System.currentTimeMillis() - infterEnterTime));
 
         return resultRsp.getData();
     }
@@ -170,24 +171,25 @@ public class PolicyRouteRoaResource {
 
         if(CollectionUtils.isEmpty(nbiRoutes)) {
             LOGGER.warn("Input body is empty.");
-            return new ArrayList<NbiNePolicyRoute>();
+            return new ArrayList<>();
         }
 
         LOGGER.info("Create body is :" + JsonUtil.toJson(nbiRoutes));
 
-        Map<String, NetworkElementMO> neIdToNeMoMap = new HashMap<String, NetworkElementMO>();
+        Map<String, NetworkElementMO> neIdToNeMoMap = new HashMap<>();
         CheckPolicyRoute.check(nbiRoutes, neIdToNeMoMap);
 
         NbiNePolicyRouteDbOper.insert(nbiRoutes);
 
-        List<SbiNePolicyRoute> sbiRoutes = new ArrayList<SbiNePolicyRoute>();
+        List<SbiNePolicyRoute> sbiRoutes = new ArrayList<>();
         PolicyRouteNbiToSbi.convertNbiToSbiModel(nbiRoutes, sbiRoutes, neIdToNeMoMap);
 
         SbiNePolicyRouteDbOper.insert(sbiRoutes);
 
         ResultRsp<NbiNePolicyRoute> resultRsp = policyRouteSvc.create(req, resp, nbiRoutes, sbiRoutes);
 
-        LOGGER.info("Exit create policy routes method. cost time(ms): " + (System.currentTimeMillis() - infterEnterTime));
+        LOGGER.info(
+                "Exit create policy routes method. cost time(ms): " + (System.currentTimeMillis() - infterEnterTime));
 
         return resultRsp.getSuccessed();
     }
@@ -211,7 +213,7 @@ public class PolicyRouteRoaResource {
 
         long infterEnterTime = System.currentTimeMillis();
 
-        ResultRsp<String> rsp = new ResultRsp<String>();
+        ResultRsp<String> rsp = null;
         if(!CollectionUtils.isEmpty(nbiActionModel.getDeploy())) {
 
             rsp = policyRouteSvc.deploy(req, resp, nbiActionModel.getDeploy());
@@ -250,17 +252,18 @@ public class PolicyRouteRoaResource {
 
         if(CollectionUtils.isEmpty(nbiRoutes)) {
             LOGGER.warn("Input body is empty.");
-            return new ArrayList<NbiNePolicyRoute>();
+            return new ArrayList<>();
         }
 
         LOGGER.info("Update body is :" + JsonUtil.toJson(nbiRoutes));
 
-        Map<String, NetworkElementMO> neIdToNeMoMap = new HashMap<String, NetworkElementMO>();
+        Map<String, NetworkElementMO> neIdToNeMoMap = new HashMap<>();
         CheckPolicyRoute.check(nbiRoutes, neIdToNeMoMap);
 
         ResultRsp<NbiNePolicyRoute> resultRsp = policyRouteSvc.update(req, resp, nbiRoutes);
 
-        LOGGER.info("Exit update policy routes method. cost time(ms): " + (System.currentTimeMillis() - infterEnterTime));
+        LOGGER.info(
+                "Exit update policy routes method. cost time(ms): " + (System.currentTimeMillis() - infterEnterTime));
 
         return resultRsp.getSuccessed();
     }
@@ -290,7 +293,8 @@ public class PolicyRouteRoaResource {
 
         policyRouteSvc.delete(req, resp, routeId);
 
-        LOGGER.info("Exit delete policy routes method. cost time(ms): " + (System.currentTimeMillis() - infterEnterTime));
+        LOGGER.info(
+                "Exit delete policy routes method. cost time(ms): " + (System.currentTimeMillis() - infterEnterTime));
 
         return routeId;
     }

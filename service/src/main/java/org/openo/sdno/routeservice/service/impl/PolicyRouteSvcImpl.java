@@ -30,6 +30,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.sdno.framework.container.util.JsonUtil;
 import org.openo.sdno.framework.container.util.UuidUtils;
+import org.openo.sdno.overlayvpn.model.common.enums.DeployStatus;
 import org.openo.sdno.overlayvpn.model.v2.route.NbiNePolicyRoute;
 import org.openo.sdno.overlayvpn.model.v2.route.SbiNePolicyRoute;
 import org.openo.sdno.overlayvpn.model.v2.route.SbiRouteNetModel;
@@ -76,11 +77,11 @@ public class PolicyRouteSvcImpl implements PolicyRouteService {
     public ResultRsp<NbiNePolicyRoute> create(HttpServletRequest req, HttpServletResponse resp,
             List<NbiNePolicyRoute> nbiRoutes, List<SbiNePolicyRoute> sbiRoutes) throws ServiceException {
 
-        Map<String, List<SbiNePolicyRoute>> sbiRoutesMap = new HashMap<String, List<SbiNePolicyRoute>>();
+        Map<String, List<SbiNePolicyRoute>> sbiRoutesMap = new HashMap<>();
 
         devideSbiDataByCtrl(sbiRoutes, sbiRoutesMap);
 
-        ResultRsp<SbiNePolicyRoute> resultRsp = new ResultRsp<SbiNePolicyRoute>();
+        ResultRsp<SbiNePolicyRoute> resultRsp = new ResultRsp<>();
 
         for(Entry<String, List<SbiNePolicyRoute>> tempEntry : sbiRoutesMap.entrySet()) {
 
@@ -104,21 +105,21 @@ public class PolicyRouteSvcImpl implements PolicyRouteService {
 
         List<NbiNePolicyRoute> nbiRoutes = NbiNePolicyRouteDbOper.batchQuery(nbiRouteIds).getData();
         if(CollectionUtils.isEmpty(nbiRoutes)) {
-            LOGGER.error("Nbi route not exists. nbiRouteIds: " + JsonUtil.toJson(nbiRouteIds));
-            throw new ServiceException("Nbi route not exists. nbiRouteIds: " + JsonUtil.toJson(nbiRouteIds));
+            LOGGER.error("Deploy NbiRoute not exists. nbiRouteIds: " + JsonUtil.toJson(nbiRouteIds));
+            throw new ServiceException("Deploy Nbi Route not exists. nbiRouteIds: " + JsonUtil.toJson(nbiRouteIds));
         }
 
         List<SbiNePolicyRoute> sbiRoutes = SbiNePolicyRouteDbOper.querySbiByNbiModel(nbiRoutes).getData();
         if(CollectionUtils.isEmpty(sbiRoutes)) {
-            LOGGER.error("Sbi route not exists. nbiRouteIds: " + JsonUtil.toJson(nbiRouteIds));
-            throw new ServiceException("Sbi route not exists. nbiRouteIds: " + JsonUtil.toJson(nbiRouteIds));
+            LOGGER.error("Deploy SbiRoute not exists. nbiRouteIds: " + JsonUtil.toJson(nbiRouteIds));
+            throw new ServiceException("Deploy Sbi Route not exists. nbiRouteIds: " + JsonUtil.toJson(nbiRouteIds));
         }
 
-        List<SbiNePolicyRoute> deployedRoutes = new ArrayList<SbiNePolicyRoute>();
-        List<SbiNePolicyRoute> undeployRoutes = new ArrayList<SbiNePolicyRoute>();
+        List<SbiNePolicyRoute> deployedRoutes = new ArrayList<>();
+        List<SbiNePolicyRoute> undeployRoutes = new ArrayList<>();
 
         for(SbiNePolicyRoute tempRoute : sbiRoutes) {
-            if("undeploy".equals(tempRoute.getDeployStatus())) {
+            if(DeployStatus.UNDEPLOY.getName().equals(tempRoute.getDeployStatus())) {
                 undeployRoutes.add(tempRoute);
             } else {
                 deployedRoutes.add(tempRoute);
@@ -127,11 +128,11 @@ public class PolicyRouteSvcImpl implements PolicyRouteService {
 
         NbiNePolicyRouteDbOper.updateNbiRoutes(nbiRoutes, deployedRoutes);
 
-        Map<String, List<SbiNePolicyRoute>> sbiRoutesMap = new HashMap<String, List<SbiNePolicyRoute>>();
+        Map<String, List<SbiNePolicyRoute>> sbiRoutesMap = new HashMap<>();
 
         devideSbiDataByCtrl(undeployRoutes, sbiRoutesMap);
 
-        ResultRsp<SbiNePolicyRoute> resultRsp = new ResultRsp<SbiNePolicyRoute>();
+        ResultRsp<SbiNePolicyRoute> resultRsp = new ResultRsp<>();
         resultRsp.getSuccessed().addAll(deployedRoutes);
 
         for(Entry<String, List<SbiNePolicyRoute>> tempEntry : sbiRoutesMap.entrySet()) {
@@ -157,21 +158,21 @@ public class PolicyRouteSvcImpl implements PolicyRouteService {
 
         List<NbiNePolicyRoute> nbiRoutes = NbiNePolicyRouteDbOper.batchQuery(nbiRouteIds).getData();
         if(CollectionUtils.isEmpty(nbiRoutes)) {
-            LOGGER.error("Nbi route not exists. nbiRouteIds: " + JsonUtil.toJson(nbiRouteIds));
-            throw new ServiceException("Nbi route not exists. nbiRouteIds: " + JsonUtil.toJson(nbiRouteIds));
+            LOGGER.error("Undeploy NbiRoute not exists. nbiRouteIds: " + JsonUtil.toJson(nbiRouteIds));
+            throw new ServiceException("Undeploy Nbi Route not exists. nbiRouteIds: " + JsonUtil.toJson(nbiRouteIds));
         }
 
         List<SbiNePolicyRoute> sbiRoutes = SbiNePolicyRouteDbOper.querySbiByNbiModel(nbiRoutes).getData();
         if(CollectionUtils.isEmpty(sbiRoutes)) {
-            LOGGER.error("Sbi route not exists. nbiRouteIds: " + JsonUtil.toJson(nbiRouteIds));
-            throw new ServiceException("Sbi route not exists. nbiRouteIds: " + JsonUtil.toJson(nbiRouteIds));
+            LOGGER.error("Undeploy SbiRoute not exists. nbiRouteIds: " + JsonUtil.toJson(nbiRouteIds));
+            throw new ServiceException("Undeploy Sbi Route not exists. nbiRouteIds: " + JsonUtil.toJson(nbiRouteIds));
         }
 
-        List<SbiNePolicyRoute> deployedRoutes = new ArrayList<SbiNePolicyRoute>();
-        List<SbiNePolicyRoute> undeployRoutes = new ArrayList<SbiNePolicyRoute>();
+        List<SbiNePolicyRoute> deployedRoutes = new ArrayList<>();
+        List<SbiNePolicyRoute> undeployRoutes = new ArrayList<>();
 
         for(SbiNePolicyRoute tempRoute : sbiRoutes) {
-            if("undeploy".equals(tempRoute.getDeployStatus())) {
+            if(DeployStatus.UNDEPLOY.getName().equals(tempRoute.getDeployStatus())) {
                 undeployRoutes.add(tempRoute);
             } else {
                 deployedRoutes.add(tempRoute);
@@ -180,11 +181,11 @@ public class PolicyRouteSvcImpl implements PolicyRouteService {
 
         NbiNePolicyRouteDbOper.updateNbiRoutes(nbiRoutes, undeployRoutes);
 
-        Map<String, List<SbiNePolicyRoute>> sbiRoutesMap = new HashMap<String, List<SbiNePolicyRoute>>();
+        Map<String, List<SbiNePolicyRoute>> sbiRoutesMap = new HashMap<>();
 
         devideSbiDataByDevice(deployedRoutes, sbiRoutesMap);
 
-        ResultRsp<SbiNePolicyRoute> resultRsp = new ResultRsp<SbiNePolicyRoute>();
+        ResultRsp<SbiNePolicyRoute> resultRsp = new ResultRsp<>();
         resultRsp.getSuccessed().addAll(undeployRoutes);
 
         for(Entry<String, List<SbiNePolicyRoute>> tempEntry : sbiRoutesMap.entrySet()) {
@@ -193,7 +194,7 @@ public class PolicyRouteSvcImpl implements PolicyRouteService {
             if(rsp.isSuccess()) {
                 resultRsp.getSuccessed().addAll(rsp.getSuccessed());
             } else {
-                LOGGER.error("Deploy routes failed. the body is: " + JsonUtil.toJson(tempEntry.getValue()));
+                LOGGER.error("Undeploy routes failed. the body is: " + JsonUtil.toJson(tempEntry.getValue()));
                 resultRsp.getFail().addAll(rsp.getFail());
                 resultRsp.getSuccessed().addAll(rsp.getSuccessed());
             }
@@ -208,23 +209,23 @@ public class PolicyRouteSvcImpl implements PolicyRouteService {
 
         List<NbiNePolicyRoute> nbiDbRoutes = NbiNePolicyRouteDbOper.queryNbiByModel(nbiRoutes).getData();
         if(CollectionUtils.isEmpty(nbiDbRoutes)) {
-            LOGGER.error("Nbi route not exists. nbiRoutes: " + JsonUtil.toJson(nbiRoutes));
-            throw new ServiceException("Nbi route not exists. nbiRoutes: " + JsonUtil.toJson(nbiRoutes));
+            LOGGER.error("Update NbiRoute not exists. nbiRoutes: " + JsonUtil.toJson(nbiRoutes));
+            throw new ServiceException("Update Nbi Route not exists. nbiRoutes: " + JsonUtil.toJson(nbiRoutes));
         }
 
         List<SbiNePolicyRoute> sbiDbRoutes = SbiNePolicyRouteDbOper.querySbiByNbiModel(nbiDbRoutes).getData();
         if(CollectionUtils.isEmpty(sbiDbRoutes)) {
-            LOGGER.error("Sbi route not exists. nbiRoutes: " + JsonUtil.toJson(nbiDbRoutes));
-            throw new ServiceException("Sbi route not exists. nbiRoutes: " + JsonUtil.toJson(nbiDbRoutes));
+            LOGGER.error("Update SbiRoute not exists. nbiRoutes: " + JsonUtil.toJson(nbiDbRoutes));
+            throw new ServiceException("Update Sbi Route not exists. nbiRoutes: " + JsonUtil.toJson(nbiDbRoutes));
         }
 
         updateSbiModelData(nbiDbRoutes, sbiDbRoutes);
 
-        List<SbiNePolicyRoute> deployedRoutes = new ArrayList<SbiNePolicyRoute>();
-        List<SbiNePolicyRoute> undeployRoutes = new ArrayList<SbiNePolicyRoute>();
+        List<SbiNePolicyRoute> deployedRoutes = new ArrayList<>();
+        List<SbiNePolicyRoute> undeployRoutes = new ArrayList<>();
 
         for(SbiNePolicyRoute tempRoute : sbiDbRoutes) {
-            if("undeploy".equals(tempRoute.getDeployStatus())) {
+            if(DeployStatus.UNDEPLOY.getName().equals(tempRoute.getDeployStatus())) {
                 undeployRoutes.add(tempRoute);
             } else {
                 deployedRoutes.add(tempRoute);
@@ -234,10 +235,10 @@ public class PolicyRouteSvcImpl implements PolicyRouteService {
         SbiNePolicyRouteDbOper.updateSbiRoute(undeployRoutes);
         NbiNePolicyRouteDbOper.updateNbiBySbiModel(nbiRoutes, undeployRoutes);
 
-        ResultRsp<SbiNePolicyRoute> resultRsp = new ResultRsp<SbiNePolicyRoute>();
+        ResultRsp<SbiNePolicyRoute> resultRsp = new ResultRsp<>();
         resultRsp.getSuccessed().addAll(undeployRoutes);
 
-        Map<String, List<SbiNePolicyRoute>> sbiRoutesMap = new HashMap<String, List<SbiNePolicyRoute>>();
+        Map<String, List<SbiNePolicyRoute>> sbiRoutesMap = new HashMap<>();
 
         devideSbiDataByCtrl(deployedRoutes, sbiRoutesMap);
 
@@ -247,7 +248,7 @@ public class PolicyRouteSvcImpl implements PolicyRouteService {
             if(rsp.isSuccess()) {
                 resultRsp.getSuccessed().addAll(rsp.getSuccessed());
             } else {
-                LOGGER.error("Create routes failed. the body is: " + JsonUtil.toJson(tempEntry.getValue()));
+                LOGGER.error("Update routes failed. the body is: " + JsonUtil.toJson(tempEntry.getValue()));
                 resultRsp.getFail().addAll(rsp.getFail());
             }
         }
@@ -259,7 +260,7 @@ public class PolicyRouteSvcImpl implements PolicyRouteService {
     public ResultRsp<String> delete(HttpServletRequest req, HttpServletResponse resp, String routeId)
             throws ServiceException {
 
-        ResultRsp<String> resultRsp = new ResultRsp<String>();
+        ResultRsp<String> resultRsp = new ResultRsp<>();
 
         NbiNePolicyRoute nbiRoute = NbiNePolicyRouteDbOper.query(routeId).getData();
         if(null == nbiRoute) {
@@ -267,19 +268,19 @@ public class PolicyRouteSvcImpl implements PolicyRouteService {
             return resultRsp;
         }
 
-        if(!"undeploy".equals(nbiRoute.getDeployStatus())) {
-            LOGGER.error("Deploy status is not undeploy");
-            throw new ServiceException("Deploy status is not undeploy");
+        if(!DeployStatus.UNDEPLOY.getName().equals(nbiRoute.getDeployStatus())) {
+            LOGGER.error("NbiRoute deploystatus is not undeploy");
+            throw new ServiceException("Nbi Route deploystatus is not undeploy");
         }
 
         List<SbiNePolicyRoute> sbiRoutes = SbiNePolicyRouteDbOper.query(routeId).getData();
-        List<SbiRouteNetModel> netModels = new ArrayList<SbiRouteNetModel>();
+        List<SbiRouteNetModel> netModels = new ArrayList<>();
         netModels.addAll(sbiRoutes);
 
         for(SbiRouteNetModel tempModel : netModels) {
-            if(!"undeploy".equals(tempModel.getDeployStatus())) {
-                LOGGER.error("Deploy status is not undeploy");
-                throw new ServiceException("Deploy status is not undeploy");
+            if(!DeployStatus.UNDEPLOY.getName().equals(tempModel.getDeployStatus())) {
+                LOGGER.error("SbiRoute deploystatus is not undeploy");
+                throw new ServiceException("Sbi Route deploystatus is not undeploy");
             }
         }
 
@@ -297,7 +298,7 @@ public class PolicyRouteSvcImpl implements PolicyRouteService {
 
             String controllerId = tempRoute.getControllerId();
             if(null == sbiRoutesMap.get(controllerId)) {
-                sbiRoutesMap.put(controllerId, new ArrayList<SbiNePolicyRoute>());
+                sbiRoutesMap.put(controllerId, new ArrayList<>());
             }
 
             sbiRoutesMap.get(controllerId).add(tempRoute);
@@ -311,7 +312,7 @@ public class PolicyRouteSvcImpl implements PolicyRouteService {
 
             String deviceId = tempRoute.getDeviceId();
             if(null == sbiRoutesMap.get(deviceId)) {
-                sbiRoutesMap.put(deviceId, new ArrayList<SbiNePolicyRoute>());
+                sbiRoutesMap.put(deviceId, new ArrayList<>());
             }
 
             sbiRoutesMap.get(deviceId).add(tempRoute);

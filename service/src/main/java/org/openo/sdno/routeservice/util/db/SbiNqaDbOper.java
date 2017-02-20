@@ -29,6 +29,7 @@ import org.openo.sdno.framework.container.util.JsonUtil;
 import org.openo.sdno.overlayvpn.inventory.sdk.util.InventoryDaoUtil;
 import org.openo.sdno.overlayvpn.model.common.enums.ActionStatus;
 import org.openo.sdno.overlayvpn.model.common.enums.AdminStatus;
+import org.openo.sdno.overlayvpn.model.common.enums.DeployStatus;
 import org.openo.sdno.overlayvpn.model.v2.route.NbiNqa;
 import org.openo.sdno.overlayvpn.model.v2.route.SbiNqa;
 import org.openo.sdno.overlayvpn.result.FailData;
@@ -107,7 +108,7 @@ public class SbiNqaDbOper {
     @SuppressWarnings("unchecked")
     public static ResultRsp<List<SbiNqa>> querySbiByNbiModel(List<NbiNqa> nbiNqas) throws ServiceException {
 
-        List<String> nbiRouteIds = new ArrayList<String>(CollectionUtils.collect(nbiNqas, new Transformer() {
+        List<String> nbiRouteIds = new ArrayList<>(CollectionUtils.collect(nbiNqas, new Transformer() {
 
             @Override
             public Object transform(Object arg0) {
@@ -115,7 +116,7 @@ public class SbiNqaDbOper {
             }
         }));
 
-        Map<String, Object> filterMap = new HashMap<String, Object>();
+        Map<String, Object> filterMap = new HashMap<>();
         filterMap.put("nbiNeRouteId", nbiRouteIds);
 
         String filter = JsonUtil.toJson(filterMap);
@@ -138,8 +139,8 @@ public class SbiNqaDbOper {
             return;
         }
 
-        SbiNqa SbiNqa = queryDbRsp.getData().get(0);
-        new InventoryDaoUtil<SbiNqa>().getInventoryDao().delete(SbiNqa.class, SbiNqa.getUuid());
+        SbiNqa sbiNqa = queryDbRsp.getData().get(0);
+        new InventoryDaoUtil<SbiNqa>().getInventoryDao().delete(SbiNqa.class, sbiNqa.getUuid());
     }
 
     /**
@@ -150,7 +151,7 @@ public class SbiNqaDbOper {
      * @since SDNO 0.5
      */
     public static void delete(List<SbiNqa> sbiNqas) throws ServiceException {
-        List<String> uuidList = new ArrayList<String>();
+        List<String> uuidList = new ArrayList<>();
 
         if(!CollectionUtils.isEmpty(sbiNqas)) {
             for(SbiNqa route : sbiNqas) {
@@ -186,11 +187,11 @@ public class SbiNqaDbOper {
             return;
         }
 
-        List<SbiNqa> updateList = new ArrayList<SbiNqa>();
+        List<SbiNqa> updateList = new ArrayList<>();
         for(SbiNqa tempRoute : sbiNqas) {
             for(SbiNqa tempSuccRoute : succNqas) {
                 if(tempRoute.getUuid().equals(tempSuccRoute.getUuid())) {
-                    tempRoute.setDeployStatus("deploy");
+                    tempRoute.setDeployStatus(DeployStatus.DEPLOY.getName());
                     tempRoute.setOperationStatus(ActionStatus.NORMAL.getName());
                     tempRoute.setActiveStatus(AdminStatus.ACTIVE.getName());
                     tempRoute.setExternalId(tempSuccRoute.getExternalId());
@@ -219,11 +220,11 @@ public class SbiNqaDbOper {
             return;
         }
 
-        List<SbiNqa> updateList = new ArrayList<SbiNqa>();
+        List<SbiNqa> updateList = new ArrayList<>();
         for(SbiNqa tempRoute : sbiNqas) {
             for(FailData<SbiNqa> tempFailRoute : failNqas) {
                 if(tempRoute.getUuid().equals(tempFailRoute.getData().getUuid())) {
-                    tempRoute.setDeployStatus("undeploy");
+                    tempRoute.setDeployStatus(DeployStatus.UNDEPLOY.getName());
                     tempRoute.setOperationStatus(ActionStatus.CREATE_EXCEPTION.getName());
                     updateList.add(tempRoute);
                     break;
@@ -250,11 +251,11 @@ public class SbiNqaDbOper {
             return;
         }
 
-        List<SbiNqa> updateList = new ArrayList<SbiNqa>();
+        List<SbiNqa> updateList = new ArrayList<>();
         for(SbiNqa tempRoute : sbiNqas) {
             for(SbiNqa tempSuccRoute : succNqas) {
                 if(tempRoute.getUuid().equals(tempSuccRoute.getUuid())) {
-                    tempRoute.setDeployStatus("undeploy");
+                    tempRoute.setDeployStatus(DeployStatus.UNDEPLOY.getName());
                     tempRoute.setOperationStatus(ActionStatus.NORMAL.getName());
                     updateList.add(tempRoute);
                     break;
@@ -282,7 +283,7 @@ public class SbiNqaDbOper {
             return;
         }
 
-        List<SbiNqa> updateList = new ArrayList<SbiNqa>();
+        List<SbiNqa> updateList = new ArrayList<>();
         for(SbiNqa tempRoute : sbiNqas) {
             for(FailData<SbiNqa> tempFailRoute : failNqas) {
                 if(tempRoute.getUuid().equals(tempFailRoute.getData().getUuid())) {
@@ -299,7 +300,7 @@ public class SbiNqaDbOper {
 
     private static ResultRsp<List<SbiNqa>> queryByFilter(String connectionId, String queryResultFields)
             throws ServiceException {
-        Map<String, Object> filterMap = new HashMap<String, Object>();
+        Map<String, Object> filterMap = new HashMap<>();
         if(StringUtils.hasLength(connectionId)) {
             filterMap.put("nbiNeRouteId", Arrays.asList(connectionId));
         }

@@ -60,7 +60,7 @@ public class NqaSbiSvcImpl implements NqaSbiService {
 
         RestfulResponse response = RestfulProxy.post(url, restfulParametes);
 
-        LOGGER.info("status: " + response.getStatus() + " content: " + response.getResponseContent());
+        LOGGER.info("createNqa response: " + response.getStatus() + response.getResponseContent());
 
         String rspContent = ResponseUtils.transferResponse(response);
         ResultRsp<SbiNqa> restResult = JsonUtil.fromJson(rspContent, new TypeReference<ResultRsp<SbiNqa>>() {});
@@ -85,7 +85,7 @@ public class NqaSbiSvcImpl implements NqaSbiService {
 
         RestfulResponse response = RestfulProxy.post(url, restfulParametes);
 
-        LOGGER.info("status: " + response.getStatus() + " content: " + response.getResponseContent());
+        LOGGER.info("deployNqa response: " + response.getStatus() + response.getResponseContent());
 
         String rspContent = ResponseUtils.transferResponse(response);
         ResultRsp<SbiNqa> restResult = JsonUtil.fromJson(rspContent, new TypeReference<ResultRsp<SbiNqa>>() {});
@@ -110,7 +110,7 @@ public class NqaSbiSvcImpl implements NqaSbiService {
 
         RestfulResponse response = RestfulProxy.post(url, restfulParametes);
 
-        LOGGER.info("status: " + response.getStatus() + " content: " + response.getResponseContent());
+        LOGGER.info("undeployNqa response: " + response.getStatus() + response.getResponseContent());
 
         String rspContent = ResponseUtils.transferResponse(response);
         ResultRsp<SbiNqa> restResult = JsonUtil.fromJson(rspContent, new TypeReference<ResultRsp<SbiNqa>>() {});
@@ -135,7 +135,7 @@ public class NqaSbiSvcImpl implements NqaSbiService {
 
         RestfulResponse response = RestfulProxy.put(url, restfulParametes);
 
-        LOGGER.info("status: " + response.getStatus() + " content: " + response.getResponseContent());
+        LOGGER.info("updateNqa response: " + response.getStatus() + response.getResponseContent());
 
         String rspContent = ResponseUtils.transferResponse(response);
         ResultRsp<SbiNqa> restResult = JsonUtil.fromJson(rspContent, new TypeReference<ResultRsp<SbiNqa>>() {});
@@ -160,7 +160,7 @@ public class NqaSbiSvcImpl implements NqaSbiService {
 
         RestfulResponse response = RestfulProxy.post(url, restfulParametes);
 
-        LOGGER.info("status: " + response.getStatus() + " content: " + response.getResponseContent());
+        LOGGER.info("queryNqa response: " + response.getStatus() + response.getResponseContent());
 
         String rspContent = ResponseUtils.transferResponse(response);
         ResultRsp<SbiNqa> restResult = JsonUtil.fromJson(rspContent, new TypeReference<ResultRsp<SbiNqa>>() {});

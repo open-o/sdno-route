@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
  * @version SDNO 0.5 Jan 9, 2017
  */
 public class NqaMergeUtil {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(NqaMergeUtil.class);
 
     private NqaMergeUtil() {
@@ -54,12 +54,12 @@ public class NqaMergeUtil {
      * @param rsp The create result
      * @return The result with NBI models
      * @throws ServiceException When merge result failed
-     * @since  SDNO 0.5
+     * @since SDNO 0.5
      */
     public static ResultRsp<NbiNqa> mergeCreateResult(List<NbiNqa> nbiNqas, List<SbiNqa> sbiNqas, ResultRsp<SbiNqa> rsp)
             throws ServiceException {
 
-        ResultRsp<NbiNqa> resultRsp = new ResultRsp<NbiNqa>();
+        ResultRsp<NbiNqa> resultRsp = new ResultRsp<>();
 
         List<SbiNqa> succNqa = rsp.getSuccessed();
         List<FailData<SbiNqa>> failNqa = rsp.getFail();
@@ -80,12 +80,12 @@ public class NqaMergeUtil {
      * @param rsp The deploy result
      * @return The result with NBI models UUID
      * @throws ServiceException When merge result failed
-     * @since  SDNO 0.5
+     * @since SDNO 0.5
      */
     public static ResultRsp<String> mergeDeployResult(List<NbiNqa> nbiNqas, List<SbiNqa> sbiNqas, ResultRsp<SbiNqa> rsp)
             throws ServiceException {
 
-        ResultRsp<String> returnRsp = new ResultRsp<String>();
+        ResultRsp<String> returnRsp = new ResultRsp<>();
 
         List<SbiNqa> succNqa = rsp.getSuccessed();
         List<FailData<SbiNqa>> failNqa = rsp.getFail();
@@ -106,12 +106,12 @@ public class NqaMergeUtil {
      * @param rsp The undeploy result
      * @return The result with NBI models UUID
      * @throws ServiceException When merge result failed
-     * @since  SDNO 0.5
+     * @since SDNO 0.5
      */
     public static ResultRsp<String> mergeUndeployResult(List<NbiNqa> nbiNqas, List<SbiNqa> sbiNqas,
             ResultRsp<SbiNqa> rsp) throws ServiceException {
 
-        ResultRsp<String> returnRsp = new ResultRsp<String>();
+        ResultRsp<String> returnRsp = new ResultRsp<>();
 
         List<SbiNqa> succNqa = rsp.getSuccessed();
         List<FailData<SbiNqa>> failNqa = rsp.getFail();
@@ -131,12 +131,12 @@ public class NqaMergeUtil {
      * @param rsp The update result
      * @return The result with NBI models
      * @throws ServiceException When merge result failed
-     * @since  SDNO 0.5
+     * @since SDNO 0.5
      */
     public static ResultRsp<NbiNqa> mergeUpdateResult(List<NbiNqa> nbiNqas, ResultRsp<SbiNqa> rsp)
             throws ServiceException {
 
-        ResultRsp<NbiNqa> resultRsp = new ResultRsp<NbiNqa>();
+        ResultRsp<NbiNqa> resultRsp = new ResultRsp<>();
 
         List<SbiNqa> succNqa = rsp.getSuccessed();
         List<FailData<SbiNqa>> failNqa = rsp.getFail();
@@ -150,8 +150,8 @@ public class NqaMergeUtil {
     private static ResultRsp<NbiNqa> mergeCreateRsp(List<NbiNqa> nbiNqas, ResultRsp<NbiNqa> resultRsp,
             List<FailData<SbiNqa>> failNqa) throws ServiceException {
 
-        List<NbiNqa> nbiSuccNqa = new ArrayList<NbiNqa>();
-        List<FailData<NbiNqa>> nbifailNqa = new ArrayList<FailData<NbiNqa>>();
+        List<NbiNqa> nbiSuccNqa = new ArrayList<>();
+        List<FailData<NbiNqa>> nbifailNqa = new ArrayList<>();
 
         if(CollectionUtils.isEmpty(failNqa)) {
             resultRsp.getSuccessed().addAll(nbiNqas);
@@ -201,14 +201,14 @@ public class NqaMergeUtil {
                     tempNqa.getData().getNbiNeRouteId());
             resultRsp.getFail().add(tempFailData);
         }
-        
+
         if(CollectionUtils.isEmpty(resultRsp.getFail())) {
             resultRsp.setErrorCode(ErrorCode.OVERLAYVPN_SUCCESS);
         } else {
             LOGGER.error("Result failed. body: " + JsonUtil.toJson(resultRsp.getFail()));
             throw new ServiceException("Result failed. body: " + JsonUtil.toJson(resultRsp.getFail()));
         }
-        
+
         return resultRsp;
     }
 

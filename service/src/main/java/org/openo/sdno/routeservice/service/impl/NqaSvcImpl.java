@@ -30,6 +30,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.sdno.framework.container.util.JsonUtil;
 import org.openo.sdno.framework.container.util.UuidUtils;
+import org.openo.sdno.overlayvpn.model.common.enums.DeployStatus;
 import org.openo.sdno.overlayvpn.model.v2.route.NbiNqa;
 import org.openo.sdno.overlayvpn.model.v2.route.SbiNqa;
 import org.openo.sdno.overlayvpn.result.ResultRsp;
@@ -75,11 +76,11 @@ public class NqaSvcImpl implements NqaService {
     public ResultRsp<NbiNqa> create(HttpServletRequest req, HttpServletResponse resp, List<NbiNqa> nbiNqas,
             List<SbiNqa> sbiNqas) throws ServiceException {
 
-        Map<String, List<SbiNqa>> sbiNqasMap = new HashMap<String, List<SbiNqa>>();
+        Map<String, List<SbiNqa>> sbiNqasMap = new HashMap<>();
 
         devideSbiDataByCtrl(sbiNqas, sbiNqasMap);
 
-        ResultRsp<SbiNqa> resultRsp = new ResultRsp<SbiNqa>();
+        ResultRsp<SbiNqa> resultRsp = new ResultRsp<>();
 
         for(Entry<String, List<SbiNqa>> tempEntry : sbiNqasMap.entrySet()) {
 
@@ -103,21 +104,21 @@ public class NqaSvcImpl implements NqaService {
 
         List<NbiNqa> nbiNqas = NbiNqaDbOper.batchQuery(nbiNqasIds).getData();
         if(CollectionUtils.isEmpty(nbiNqas)) {
-            LOGGER.error("Nbi NQA not exists. nbiNqasIds: " + JsonUtil.toJson(nbiNqasIds));
-            throw new ServiceException("Nbi NQA not exists. nbiNqasIds: " + JsonUtil.toJson(nbiNqasIds));
+            LOGGER.error("Deploy NbiNQA not exists. nbiNqasIds: " + JsonUtil.toJson(nbiNqasIds));
+            throw new ServiceException("Deploy Nbi NQA not exists. nbiNqasIds: " + JsonUtil.toJson(nbiNqasIds));
         }
 
         List<SbiNqa> sbiNqas = SbiNqaDbOper.querySbiByNbiModel(nbiNqas).getData();
         if(CollectionUtils.isEmpty(sbiNqas)) {
-            LOGGER.error("Sbi NQA not exists. nbiNqasIds: " + JsonUtil.toJson(nbiNqasIds));
-            throw new ServiceException("Sbi NQA not exists. nbiNqasIds: " + JsonUtil.toJson(nbiNqasIds));
+            LOGGER.error("Deploy SbiNQA not exists. nbiNqasIds: " + JsonUtil.toJson(nbiNqasIds));
+            throw new ServiceException("Deploy Sbi NQA not exists. nbiNqasIds: " + JsonUtil.toJson(nbiNqasIds));
         }
 
-        List<SbiNqa> deployedNqa = new ArrayList<SbiNqa>();
-        List<SbiNqa> undeployNqa = new ArrayList<SbiNqa>();
+        List<SbiNqa> deployedNqa = new ArrayList<>();
+        List<SbiNqa> undeployNqa = new ArrayList<>();
 
         for(SbiNqa tempNqa : sbiNqas) {
-            if("undeploy".equals(tempNqa.getDeployStatus())) {
+            if(DeployStatus.UNDEPLOY.getName().equals(tempNqa.getDeployStatus())) {
                 undeployNqa.add(tempNqa);
             } else {
                 deployedNqa.add(tempNqa);
@@ -126,11 +127,11 @@ public class NqaSvcImpl implements NqaService {
 
         NbiNqaDbOper.updateNbiNqa(nbiNqas, deployedNqa);
 
-        Map<String, List<SbiNqa>> sbiNqasMap = new HashMap<String, List<SbiNqa>>();
+        Map<String, List<SbiNqa>> sbiNqasMap = new HashMap<>();
 
         devideSbiDataByCtrl(undeployNqa, sbiNqasMap);
 
-        ResultRsp<SbiNqa> resultRsp = new ResultRsp<SbiNqa>();
+        ResultRsp<SbiNqa> resultRsp = new ResultRsp<>();
         resultRsp.getSuccessed().addAll(deployedNqa);
 
         for(Entry<String, List<SbiNqa>> tempEntry : sbiNqasMap.entrySet()) {
@@ -156,21 +157,21 @@ public class NqaSvcImpl implements NqaService {
 
         List<NbiNqa> nbiNqas = NbiNqaDbOper.batchQuery(nbiNqasIds).getData();
         if(CollectionUtils.isEmpty(nbiNqas)) {
-            LOGGER.error("Nbi NQA not exists. nbiNqasIds: " + JsonUtil.toJson(nbiNqasIds));
-            throw new ServiceException("Nbi NQA not exists. nbiNqasIds: " + JsonUtil.toJson(nbiNqasIds));
+            LOGGER.error("Undeploy NbiNQA not exists. nbiNqasIds: " + JsonUtil.toJson(nbiNqasIds));
+            throw new ServiceException("Undeploy Nbi NQA not exists. nbiNqasIds: " + JsonUtil.toJson(nbiNqasIds));
         }
 
         List<SbiNqa> sbiNqas = SbiNqaDbOper.querySbiByNbiModel(nbiNqas).getData();
         if(CollectionUtils.isEmpty(sbiNqas)) {
-            LOGGER.error("Sbi NQA not exists. nbiNqasIds: " + JsonUtil.toJson(nbiNqasIds));
-            throw new ServiceException("Sbi NQA not exists. nbiNqasIds: " + JsonUtil.toJson(nbiNqasIds));
+            LOGGER.error("Undeploy SbiNQA not exists. nbiNqasIds: " + JsonUtil.toJson(nbiNqasIds));
+            throw new ServiceException("Undeploy Sbi NQA not exists. nbiNqasIds: " + JsonUtil.toJson(nbiNqasIds));
         }
 
-        List<SbiNqa> deployedNqa = new ArrayList<SbiNqa>();
-        List<SbiNqa> undeployNqa = new ArrayList<SbiNqa>();
+        List<SbiNqa> deployedNqa = new ArrayList<>();
+        List<SbiNqa> undeployNqa = new ArrayList<>();
 
         for(SbiNqa tempNqa : sbiNqas) {
-            if("undeploy".equals(tempNqa.getDeployStatus())) {
+            if(DeployStatus.UNDEPLOY.getName().equals(tempNqa.getDeployStatus())) {
                 undeployNqa.add(tempNqa);
             } else {
                 deployedNqa.add(tempNqa);
@@ -179,11 +180,11 @@ public class NqaSvcImpl implements NqaService {
 
         NbiNqaDbOper.updateNbiNqa(nbiNqas, undeployNqa);
 
-        Map<String, List<SbiNqa>> sbiNqasMap = new HashMap<String, List<SbiNqa>>();
+        Map<String, List<SbiNqa>> sbiNqasMap = new HashMap<>();
 
         devideSbiDataByDevice(deployedNqa, sbiNqasMap);
 
-        ResultRsp<SbiNqa> resultRsp = new ResultRsp<SbiNqa>();
+        ResultRsp<SbiNqa> resultRsp = new ResultRsp<>();
         resultRsp.getSuccessed().addAll(undeployNqa);
 
         for(Entry<String, List<SbiNqa>> tempEntry : sbiNqasMap.entrySet()) {
@@ -192,7 +193,7 @@ public class NqaSvcImpl implements NqaService {
             if(rsp.isSuccess()) {
                 resultRsp.getSuccessed().addAll(rsp.getSuccessed());
             } else {
-                LOGGER.error("Deploy NQA failed. the body is: " + JsonUtil.toJson(tempEntry.getValue()));
+                LOGGER.error("Undeploy NQA failed. the body is: " + JsonUtil.toJson(tempEntry.getValue()));
                 resultRsp.getFail().addAll(rsp.getFail());
                 resultRsp.getSuccessed().addAll(rsp.getSuccessed());
             }
@@ -207,23 +208,23 @@ public class NqaSvcImpl implements NqaService {
 
         List<NbiNqa> nbiDbNqa = NbiNqaDbOper.queryNbiByModel(nbiNqas).getData();
         if(CollectionUtils.isEmpty(nbiDbNqa)) {
-            LOGGER.error("Nbi NQA not exists. nbiNqas: " + JsonUtil.toJson(nbiNqas));
-            throw new ServiceException("Nbi NQA not exists. nbiNqas: " + JsonUtil.toJson(nbiNqas));
+            LOGGER.error("Update NbiNQA not exists. nbiNqas: " + JsonUtil.toJson(nbiNqas));
+            throw new ServiceException("Update NbiNQA not exists. nbiNqas: " + JsonUtil.toJson(nbiNqas));
         }
 
         List<SbiNqa> sbiDbNqa = SbiNqaDbOper.querySbiByNbiModel(nbiDbNqa).getData();
         if(CollectionUtils.isEmpty(sbiDbNqa)) {
-            LOGGER.error("Sbi NQA not exists. nbiNqas: " + JsonUtil.toJson(nbiDbNqa));
-            throw new ServiceException("Sbi NQA not exists. nbiNqas: " + JsonUtil.toJson(nbiDbNqa));
+            LOGGER.error("Update SbiNQA not exists. nbiNqas: " + JsonUtil.toJson(nbiDbNqa));
+            throw new ServiceException("Update Sbi NQA not exists. nbiNqas: " + JsonUtil.toJson(nbiDbNqa));
         }
 
         updateSbiModelData(nbiDbNqa, sbiDbNqa);
 
-        List<SbiNqa> deployedNqa = new ArrayList<SbiNqa>();
-        List<SbiNqa> undeployNqa = new ArrayList<SbiNqa>();
+        List<SbiNqa> deployedNqa = new ArrayList<>();
+        List<SbiNqa> undeployNqa = new ArrayList<>();
 
         for(SbiNqa tempNqa : sbiDbNqa) {
-            if("undeploy".equals(tempNqa.getDeployStatus())) {
+            if(DeployStatus.UNDEPLOY.getName().equals(tempNqa.getDeployStatus())) {
                 undeployNqa.add(tempNqa);
             } else {
                 deployedNqa.add(tempNqa);
@@ -233,10 +234,10 @@ public class NqaSvcImpl implements NqaService {
         SbiNqaDbOper.updateSbiNqa(undeployNqa);
         NbiNqaDbOper.updateNbiBySbiModel(nbiNqas, undeployNqa);
 
-        ResultRsp<SbiNqa> resultRsp = new ResultRsp<SbiNqa>();
+        ResultRsp<SbiNqa> resultRsp = new ResultRsp<>();
         resultRsp.getSuccessed().addAll(undeployNqa);
 
-        Map<String, List<SbiNqa>> sbiNqasMap = new HashMap<String, List<SbiNqa>>();
+        Map<String, List<SbiNqa>> sbiNqasMap = new HashMap<>();
 
         devideSbiDataByCtrl(deployedNqa, sbiNqasMap);
 
@@ -246,7 +247,7 @@ public class NqaSvcImpl implements NqaService {
             if(rsp.isSuccess()) {
                 resultRsp.getSuccessed().addAll(rsp.getSuccessed());
             } else {
-                LOGGER.error("Create NQA failed. the body is: " + JsonUtil.toJson(tempEntry.getValue()));
+                LOGGER.error("Update NQA failed. the body is: " + JsonUtil.toJson(tempEntry.getValue()));
                 resultRsp.getFail().addAll(rsp.getFail());
             }
         }
@@ -258,7 +259,7 @@ public class NqaSvcImpl implements NqaService {
     public ResultRsp<String> delete(HttpServletRequest req, HttpServletResponse resp, String nqaId)
             throws ServiceException {
 
-        ResultRsp<String> resultRsp = new ResultRsp<String>();
+        ResultRsp<String> resultRsp = new ResultRsp<>();
 
         NbiNqa nbiNqas = NbiNqaDbOper.query(nqaId).getData();
         if(null == nbiNqas) {
@@ -266,19 +267,19 @@ public class NqaSvcImpl implements NqaService {
             return resultRsp;
         }
 
-        if(!"undeploy".equals(nbiNqas.getDeployStatus())) {
-            LOGGER.error("Deploy status is not undeploy");
-            throw new ServiceException("Deploy status is not undeploy");
+        if(!DeployStatus.UNDEPLOY.getName().equals(nbiNqas.getDeployStatus())) {
+            LOGGER.error("NbiNQA deploystatus is not undeploy");
+            throw new ServiceException("Nbi NQA deploystatus is not undeploy");
         }
 
         List<SbiNqa> sbiNqas = SbiNqaDbOper.query(nqaId).getData();
-        List<SbiNqa> nqaList = new ArrayList<SbiNqa>();
+        List<SbiNqa> nqaList = new ArrayList<>();
         nqaList.addAll(sbiNqas);
 
         for(SbiNqa tempModel : nqaList) {
-            if(!"undeploy".equals(tempModel.getDeployStatus())) {
-                LOGGER.error("Deploy status is not undeploy");
-                throw new ServiceException("Deploy status is not undeploy");
+            if(!DeployStatus.UNDEPLOY.getName().equals(tempModel.getDeployStatus())) {
+                LOGGER.error("SbiNQA deploystatus is not undeploy");
+                throw new ServiceException("Sbi NQA deploystatus is not undeploy");
             }
         }
 
@@ -295,7 +296,7 @@ public class NqaSvcImpl implements NqaService {
 
             String controllerId = tempNqa.getControllerId();
             if(null == sbiNqasMap.get(controllerId)) {
-                sbiNqasMap.put(controllerId, new ArrayList<SbiNqa>());
+                sbiNqasMap.put(controllerId, new ArrayList<>());
             }
 
             sbiNqasMap.get(controllerId).add(tempNqa);
@@ -308,7 +309,7 @@ public class NqaSvcImpl implements NqaService {
 
             String deviceId = tempNqa.getDeviceId();
             if(null == sbiNqasMap.get(deviceId)) {
-                sbiNqasMap.put(deviceId, new ArrayList<SbiNqa>());
+                sbiNqasMap.put(deviceId, new ArrayList<>());
             }
 
             sbiNqasMap.get(deviceId).add(tempNqa);

@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.Transformer;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.sdno.framework.container.util.JsonUtil;
 import org.openo.sdno.overlayvpn.inventory.sdk.util.InventoryDaoUtil;
@@ -108,13 +107,7 @@ public class SbiNqaDbOper {
     @SuppressWarnings("unchecked")
     public static ResultRsp<List<SbiNqa>> querySbiByNbiModel(List<NbiNqa> nbiNqas) throws ServiceException {
 
-        List<String> nbiRouteIds = new ArrayList<>(CollectionUtils.collect(nbiNqas, new Transformer() {
-
-            @Override
-            public Object transform(Object arg0) {
-                return ((NbiNqa)arg0).getUuid();
-            }
-        }));
+        List<String> nbiRouteIds = new ArrayList<>(CollectionUtils.collect(nbiNqas, arg0 -> ((NbiNqa)arg0).getUuid()));
 
         Map<String, Object> filterMap = new HashMap<>();
         filterMap.put("nbiNeRouteId", nbiRouteIds);

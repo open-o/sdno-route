@@ -213,7 +213,7 @@ public class PolicyRouteRoaResource {
 
         long infterEnterTime = System.currentTimeMillis();
 
-        ResultRsp<String> rsp = null;
+        ResultRsp<String> rsp;
         if(!CollectionUtils.isEmpty(nbiActionModel.getDeploy())) {
 
             rsp = policyRouteSvc.deploy(req, resp, nbiActionModel.getDeploy());

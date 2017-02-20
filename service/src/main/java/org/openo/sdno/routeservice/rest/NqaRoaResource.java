@@ -210,7 +210,7 @@ public class NqaRoaResource {
 
         long infterEnterTime = System.currentTimeMillis();
 
-        ResultRsp<String> rsp = null;
+        ResultRsp<String> rsp;
         if(!CollectionUtils.isEmpty(nbiActionModel.getDeploy())) {
 
             rsp = nqaSvc.deploy(req, resp, nbiActionModel.getDeploy());

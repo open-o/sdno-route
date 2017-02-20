@@ -165,7 +165,7 @@ public class StaticRouteMergeUtil {
             for(FailData<SbiNeStaticRoute> tempFailRoute : failRoutes) {
 
                 if(nbiRoute.getUuid().equals(tempFailRoute.getData().getNbiNeRouteId())) {
-                    FailData<NbiNeStaticRoute> tempFailData = new FailData<NbiNeStaticRoute>(tempFailRoute.getErrcode(),
+                    FailData<NbiNeStaticRoute> tempFailData = new FailData<>(tempFailRoute.getErrcode(),
                             tempFailRoute.getErrmsg(), nbiRoute);
                     nbifailRoutes.add(tempFailData);
                     isFailed = true;
@@ -184,8 +184,8 @@ public class StaticRouteMergeUtil {
         if(CollectionUtils.isEmpty(nbifailRoutes)) {
             resultRsp.setErrorCode(ErrorCode.OVERLAYVPN_SUCCESS);
         } else {
-            LOGGER.error("Result failed. body: " + JsonUtil.toJson(nbifailRoutes));
-            throw new ServiceException("Result failed. body: " + JsonUtil.toJson(nbifailRoutes));
+            LOGGER.error("Result failed. FailData: " + JsonUtil.toJson(nbifailRoutes));
+            throw new ServiceException("Result failed. Fail data: " + JsonUtil.toJson(nbifailRoutes));
         }
 
         return resultRsp;
@@ -198,7 +198,7 @@ public class StaticRouteMergeUtil {
         }
 
         for(FailData<SbiNeStaticRoute> failRoute : failRoutes) {
-            FailData<String> tempFailData = new FailData<String>(failRoute.getErrcode(), failRoute.getErrmsg(),
+            FailData<String> tempFailData = new FailData<>(failRoute.getErrcode(), failRoute.getErrmsg(),
                     failRoute.getData().getNbiNeRouteId());
             resultRsp.getFail().add(tempFailData);
         }
@@ -206,8 +206,8 @@ public class StaticRouteMergeUtil {
         if(CollectionUtils.isEmpty(resultRsp.getFail())) {
             resultRsp.setErrorCode(ErrorCode.OVERLAYVPN_SUCCESS);
         } else {
-            LOGGER.error("Result failed. body: " + JsonUtil.toJson(resultRsp.getFail()));
-            throw new ServiceException("Result failed. body: " + JsonUtil.toJson(resultRsp.getFail()));
+            LOGGER.error("Total result failed. FailData: " + JsonUtil.toJson(resultRsp.getFail()));
+            throw new ServiceException("Total result failed. Fail Data: " + JsonUtil.toJson(resultRsp.getFail()));
         }
 
         return resultRsp;

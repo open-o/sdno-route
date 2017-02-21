@@ -32,6 +32,7 @@ import org.openo.sdno.overlayvpn.result.ResultRsp;
 import org.openo.sdno.rest.ResponseUtils;
 import org.openo.sdno.routeservice.sbi.inf.StaticRouteSbiService;
 import org.openo.sdno.routeservice.util.operation.RestfulParametesUtil;
+import org.openo.sdno.routeservice.util.operation.StaticRouteMergeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -111,12 +112,12 @@ public class StaticRouteSbiSvcImpl implements StaticRouteSbiService {
         LOGGER.info("undeployRoutes response: " + response.getStatus() + response.getResponseContent());
 
         String rspContent = ResponseUtils.transferResponse(response);
-        ResultRsp<SbiNeStaticRoute> restResult =
-                JsonUtil.fromJson(rspContent, new TypeReference<ResultRsp<SbiNeStaticRoute>>() {});
+        ResultRsp<String> restResult =
+                JsonUtil.fromJson(rspContent, new TypeReference<ResultRsp<String>>() {});
 
         LOGGER.info("undeployRoutes end, result = " + restResult.toString());
 
-        return restResult;
+        return StaticRouteMergeUtil.convertResultType(restResult, sbiRoutes);
     }
 
     @Override

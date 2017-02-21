@@ -147,6 +147,43 @@ public class StaticRouteMergeUtil {
         return mergeCreateRsp(nbiRoutes, resultRsp, failRoutes);
     }
 
+    /**
+     * Convert result with ID to result with body data.<br/>
+     * 
+     * @param reRsp Result with ID
+     * @param sbiRoutes Collection of body data
+     * @return Result with body data
+     * @since SDNO 0.5
+     */
+    public static ResultRsp<SbiNeStaticRoute> convertResultType(ResultRsp<String> reRsp,
+            List<SbiNeStaticRoute> sbiRoutes) {
+
+        ResultRsp<SbiNeStaticRoute> resultRsp = new ResultRsp<>();
+
+        for(String successId : reRsp.getSuccessed()) {
+            for(SbiNeStaticRoute sbiRoute : sbiRoutes) {
+                if(sbiRoute.getUuid().equals(successId)) {
+                    resultRsp.getSuccessed().add(sbiRoute);
+                }
+            }
+        }
+
+        for(FailData<String> tempFail : reRsp.getFail()) {
+            for(SbiNeStaticRoute sbiRoute : sbiRoutes) {
+                if(sbiRoute.getUuid().equals(tempFail.getData())) {
+                    FailData<SbiNeStaticRoute> failData = new FailData<>();
+                    failData.setData(sbiRoute);
+                    failData.setErrcode(tempFail.getErrcode());
+                    failData.setErrmsg(tempFail.getErrmsg());
+                    resultRsp.getFail().add(failData);
+                }
+            }
+        }
+
+        resultRsp.setErrorCode(reRsp.getErrorCode());
+        return resultRsp;
+    }
+
     private static ResultRsp<NbiNeStaticRoute> mergeCreateRsp(List<NbiNeStaticRoute> nbiRoutes,
             ResultRsp<NbiNeStaticRoute> resultRsp, List<FailData<SbiNeStaticRoute>> failRoutes)
             throws ServiceException {
@@ -165,8 +202,8 @@ public class StaticRouteMergeUtil {
             for(FailData<SbiNeStaticRoute> tempFailRoute : failRoutes) {
 
                 if(nbiRoute.getUuid().equals(tempFailRoute.getData().getNbiNeRouteId())) {
-                    FailData<NbiNeStaticRoute> tempFailData = new FailData<>(tempFailRoute.getErrcode(),
-                            tempFailRoute.getErrmsg(), nbiRoute);
+                    FailData<NbiNeStaticRoute> tempFailData =
+                            new FailData<>(tempFailRoute.getErrcode(), tempFailRoute.getErrmsg(), nbiRoute);
                     nbifailRoutes.add(tempFailData);
                     isFailed = true;
                     break;

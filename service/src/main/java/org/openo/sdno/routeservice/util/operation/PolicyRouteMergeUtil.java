@@ -147,6 +147,43 @@ public class PolicyRouteMergeUtil {
         return mergeCreateRsp(nbiRoutes, resultRsp, failRoutes);
     }
 
+    /**
+     * Convert result with ID to result with body data.<br/>
+     * 
+     * @param reRsp Result with ID
+     * @param sbiRoutes Collection of body data
+     * @return Result with body data
+     * @since SDNO 0.5
+     */
+    public static ResultRsp<SbiNePolicyRoute> convertResultType(ResultRsp<String> reRsp,
+            List<SbiNePolicyRoute> sbiRoutes) {
+
+        ResultRsp<SbiNePolicyRoute> resultRsp = new ResultRsp<>();
+
+        for(String successId : reRsp.getSuccessed()) {
+            for(SbiNePolicyRoute sbiRoute : sbiRoutes) {
+                if(sbiRoute.getUuid().equals(successId)) {
+                    resultRsp.getSuccessed().add(sbiRoute);
+                }
+            }
+        }
+
+        for(FailData<String> tempFail : reRsp.getFail()) {
+            for(SbiNePolicyRoute sbiRoute : sbiRoutes) {
+                if(sbiRoute.getUuid().equals(tempFail.getData())) {
+                    FailData<SbiNePolicyRoute> failData = new FailData<>();
+                    failData.setData(sbiRoute);
+                    failData.setErrcode(tempFail.getErrcode());
+                    failData.setErrmsg(tempFail.getErrmsg());
+                    resultRsp.getFail().add(failData);
+                }
+            }
+        }
+
+        resultRsp.setErrorCode(reRsp.getErrorCode());
+        return resultRsp;
+    }
+    
     private static ResultRsp<NbiNePolicyRoute> mergeCreateRsp(List<NbiNePolicyRoute> nbiRoutes,
             ResultRsp<NbiNePolicyRoute> resultRsp, List<FailData<SbiNePolicyRoute>> failRoutes)
             throws ServiceException {

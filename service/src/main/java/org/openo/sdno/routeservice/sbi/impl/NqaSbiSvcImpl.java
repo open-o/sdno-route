@@ -17,6 +17,7 @@
 package org.openo.sdno.routeservice.sbi.impl;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,6 +32,7 @@ import org.openo.sdno.overlayvpn.model.v2.route.SbiNqa;
 import org.openo.sdno.overlayvpn.result.ResultRsp;
 import org.openo.sdno.rest.ResponseUtils;
 import org.openo.sdno.routeservice.sbi.inf.NqaSbiService;
+import org.openo.sdno.routeservice.util.operation.NqaMergeUtil;
 import org.openo.sdno.routeservice.util.operation.RestfulParametesUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,15 +98,21 @@ public class NqaSbiSvcImpl implements NqaSbiService {
     }
 
     @Override
-    public ResultRsp<SbiNqa> undeployNqa(List<SbiNqa> sbiNqa) throws ServiceException {
+    public ResultRsp<SbiNqa> undeployNqa(List<SbiNqa> sbiNqas) throws ServiceException {
 
-        String deviceId = sbiNqa.get(0).getDeviceId();
-        String ctrlUuid = sbiNqa.get(0).getControllerId();
-        RestfulParametes restfulParametes =
-                RestfulParametesUtil.getRestfulParametesWithBody(JsonUtil.toJson(sbiNqa), ctrlUuid);
+        List<String> nqaIds = new ArrayList<>();
+        for(SbiNqa sbiNqa : sbiNqas) {
+            nqaIds.add(sbiNqa.getExternalId());
+        }
+
+        String deviceId = sbiNqas.get(0).getDeviceId();
+        String ctrlUuid = sbiNqas.get(0).getControllerId();
 
         String url = UrlAdapterConst.ROUTE_ADAPTER_BASE_URL
                 + MessageFormat.format(UrlAdapterConst.DELETE_POLICY_NQA, deviceId);
+
+        RestfulParametes restfulParametes =
+                RestfulParametesUtil.getRestfulParametesWithBody(JsonUtil.toJson(nqaIds), ctrlUuid);
 
         LOGGER.info("undeployNqa begin: " + url + "\n" + restfulParametes.getRawData());
 
@@ -113,11 +121,11 @@ public class NqaSbiSvcImpl implements NqaSbiService {
         LOGGER.info("undeployNqa response: " + response.getStatus() + response.getResponseContent());
 
         String rspContent = ResponseUtils.transferResponse(response);
-        ResultRsp<SbiNqa> restResult = JsonUtil.fromJson(rspContent, new TypeReference<ResultRsp<SbiNqa>>() {});
+        ResultRsp<String> restResult = JsonUtil.fromJson(rspContent, new TypeReference<ResultRsp<String>>() {});
 
         LOGGER.info("undeployNqa end, result = " + restResult.toString());
 
-        return restResult;
+        return NqaMergeUtil.convertResultType(restResult, sbiNqas);
     }
 
     @Override

@@ -147,6 +147,42 @@ public class NqaMergeUtil {
         return mergeCreateRsp(nbiNqas, resultRsp, failNqa);
     }
 
+    /**
+     * Convert result with ID to result with body data.<br/>
+     * 
+     * @param reRsp Result with ID
+     * @param sbiNqas Collection of body data
+     * @return Result with body data
+     * @since SDNO 0.5
+     */
+    public static ResultRsp<SbiNqa> convertResultType(ResultRsp<String> reRsp, List<SbiNqa> sbiNqas) {
+
+        ResultRsp<SbiNqa> resultRsp = new ResultRsp<>();
+
+        for(String successId : reRsp.getSuccessed()) {
+            for(SbiNqa sbiNqa : sbiNqas) {
+                if(sbiNqa.getUuid().equals(successId)) {
+                    resultRsp.getSuccessed().add(sbiNqa);
+                }
+            }
+        }
+
+        for(FailData<String> tempFail : reRsp.getFail()) {
+            for(SbiNqa sbiNqa : sbiNqas) {
+                if(sbiNqa.getUuid().equals(tempFail.getData())) {
+                    FailData<SbiNqa> failData = new FailData<>();
+                    failData.setData(sbiNqa);
+                    failData.setErrcode(tempFail.getErrcode());
+                    failData.setErrmsg(tempFail.getErrmsg());
+                    resultRsp.getFail().add(failData);
+                }
+            }
+        }
+
+        resultRsp.setErrorCode(reRsp.getErrorCode());
+        return resultRsp;
+    }
+
     private static ResultRsp<NbiNqa> mergeCreateRsp(List<NbiNqa> nbiNqas, ResultRsp<NbiNqa> resultRsp,
             List<FailData<SbiNqa>> failNqa) throws ServiceException {
 
@@ -197,8 +233,8 @@ public class NqaMergeUtil {
         }
 
         for(FailData<SbiNqa> tempNqa : failNqas) {
-            FailData<String> tempFailData = new FailData<>(tempNqa.getErrcode(), tempNqa.getErrmsg(),
-                    tempNqa.getData().getNbiNeRouteId());
+            FailData<String> tempFailData =
+                    new FailData<>(tempNqa.getErrcode(), tempNqa.getErrmsg(), tempNqa.getData().getNbiNeRouteId());
             resultRsp.getFail().add(tempFailData);
         }
 

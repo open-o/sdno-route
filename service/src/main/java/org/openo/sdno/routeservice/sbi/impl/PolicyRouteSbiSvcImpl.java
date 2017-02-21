@@ -31,6 +31,7 @@ import org.openo.sdno.overlayvpn.model.v2.route.SbiNePolicyRoute;
 import org.openo.sdno.overlayvpn.result.ResultRsp;
 import org.openo.sdno.rest.ResponseUtils;
 import org.openo.sdno.routeservice.sbi.inf.PolicyRouteSbiService;
+import org.openo.sdno.routeservice.util.operation.PolicyRouteMergeUtil;
 import org.openo.sdno.routeservice.util.operation.RestfulParametesUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -111,12 +112,12 @@ public class PolicyRouteSbiSvcImpl implements PolicyRouteSbiService {
         LOGGER.info("undeployRoutes response: " + response.getStatus() + response.getResponseContent());
 
         String rspContent = ResponseUtils.transferResponse(response);
-        ResultRsp<SbiNePolicyRoute> restResult =
-                JsonUtil.fromJson(rspContent, new TypeReference<ResultRsp<SbiNePolicyRoute>>() {});
+        ResultRsp<String> restResult =
+                JsonUtil.fromJson(rspContent, new TypeReference<ResultRsp<String>>() {});
 
         LOGGER.info("undeployRoutes end, result = " + restResult.toString());
 
-        return restResult;
+        return PolicyRouteMergeUtil.convertResultType(restResult, sbiRoutes);
     }
 
     @Override

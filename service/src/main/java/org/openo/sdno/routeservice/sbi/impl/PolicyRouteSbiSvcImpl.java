@@ -18,7 +18,9 @@ package org.openo.sdno.routeservice.sbi.impl;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.codehaus.jackson.type.TypeReference;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
@@ -99,11 +101,17 @@ public class PolicyRouteSbiSvcImpl implements PolicyRouteSbiService {
 
         String deviceId = sbiRoutes.get(0).getDeviceId();
         String ctrlUuid = sbiRoutes.get(0).getControllerId();
-        RestfulParametes restfulParametes =
-                RestfulParametesUtil.getRestfulParametesWithBody(JsonUtil.toJson(sbiRoutes), ctrlUuid);
 
         String url = UrlAdapterConst.ROUTE_ADAPTER_BASE_URL
                 + MessageFormat.format(UrlAdapterConst.DELETE_POLICY_ROUTE, deviceId);
+
+        Set<String> routeIds = new HashSet<>();
+        for(SbiNePolicyRoute tmpRoute : sbiRoutes) {
+            routeIds.add(tmpRoute.getExternalId());
+        }
+
+        RestfulParametes restfulParametes =
+                RestfulParametesUtil.getRestfulParametesWithBody(JsonUtil.toJson(routeIds), ctrlUuid);
 
         LOGGER.info("undeployRoutes begin: " + url + "\n" + restfulParametes.getRawData());
 
@@ -112,8 +120,7 @@ public class PolicyRouteSbiSvcImpl implements PolicyRouteSbiService {
         LOGGER.info("undeployRoutes response: " + response.getStatus() + response.getResponseContent());
 
         String rspContent = ResponseUtils.transferResponse(response);
-        ResultRsp<String> restResult =
-                JsonUtil.fromJson(rspContent, new TypeReference<ResultRsp<String>>() {});
+        ResultRsp<String> restResult = JsonUtil.fromJson(rspContent, new TypeReference<ResultRsp<String>>() {});
 
         LOGGER.info("undeployRoutes end, result = " + restResult.toString());
 

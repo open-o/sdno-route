@@ -65,13 +65,14 @@ public class PolicyRouteNbiToSbi {
 
     private static void setSbiNePolicyRoute(NbiNePolicyRoute nbiRoute, SbiNePolicyRoute sbiRoute) {
         sbiRoute.setTrafficPolicyName(nbiRoute.getTrafficPolicyName());
-        sbiRoute.setFilterAction(nbiRoute.getTrafficPolicyName());
+        sbiRoute.setFilterAction(nbiRoute.getFilterAction());
         sbiRoute.setInterfaceName(nbiRoute.getInterfaceName());
         sbiRoute.setDirection(nbiRoute.getDirection());
     }
 
     private static void setBasciSbiNePolicyRoute(NbiNePolicyRoute nbiRoute, SbiNePolicyRoute sbiRoute) {
         sbiRoute.setNbiNeRouteId(nbiRoute.getUuid());
+        sbiRoute.setExternalId(nbiRoute.getUuid());
         sbiRoute.setName(nbiRoute.getName());
         sbiRoute.setTenantId(nbiRoute.getTenantId());
         sbiRoute.setDescription(nbiRoute.getDescription());

@@ -74,6 +74,7 @@ public class StaticRouteNbiToSbi {
 
     private static void setBasciSbiNeStaticRoute(NbiNeStaticRoute nbiRoute, SbiNeStaticRoute sbiRoute) {
         sbiRoute.setNbiNeRouteId(nbiRoute.getUuid());
+        sbiRoute.setExternalId(nbiRoute.getUuid());
         sbiRoute.setName(nbiRoute.getName());
         sbiRoute.setTenantId(nbiRoute.getTenantId());
         sbiRoute.setDescription(nbiRoute.getDescription());

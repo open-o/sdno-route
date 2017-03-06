@@ -159,27 +159,20 @@ public class NqaMergeUtil {
 
         ResultRsp<SbiNqa> resultRsp = new ResultRsp<>();
 
-        for(String successId : reRsp.getSuccessed()) {
-            for(SbiNqa sbiNqa : sbiNqas) {
-                if(sbiNqa.getUuid().equals(successId)) {
-                    resultRsp.getSuccessed().add(sbiNqa);
-                }
-            }
-        }
-
-        for(FailData<String> tempFail : reRsp.getFail()) {
-            for(SbiNqa sbiNqa : sbiNqas) {
-                if(sbiNqa.getUuid().equals(tempFail.getData())) {
-                    FailData<SbiNqa> failData = new FailData<>();
-                    failData.setData(sbiNqa);
-                    failData.setErrcode(tempFail.getErrcode());
-                    failData.setErrmsg(tempFail.getErrmsg());
-                    resultRsp.getFail().add(failData);
-                }
+        if(reRsp.isSuccess()) {
+            resultRsp.getSuccessed().addAll(sbiNqas);
+        } else {
+            for(SbiNqa sbiRoute : sbiNqas) {
+                FailData<SbiNqa> failData = new FailData<>();
+                failData.setData(sbiRoute);
+                failData.setErrcode(reRsp.getErrorCode());
+                failData.setErrmsg(reRsp.getMessage());
+                resultRsp.getFail().add(failData);
             }
         }
 
         resultRsp.setErrorCode(reRsp.getErrorCode());
+        resultRsp.setMessage(reRsp.getMessage());
         return resultRsp;
     }
 

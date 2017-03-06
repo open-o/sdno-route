@@ -160,30 +160,23 @@ public class PolicyRouteMergeUtil {
 
         ResultRsp<SbiNePolicyRoute> resultRsp = new ResultRsp<>();
 
-        for(String successId : reRsp.getSuccessed()) {
+        if(reRsp.isSuccess()) {
+            resultRsp.getSuccessed().addAll(sbiRoutes);
+        } else {
             for(SbiNePolicyRoute sbiRoute : sbiRoutes) {
-                if(sbiRoute.getUuid().equals(successId)) {
-                    resultRsp.getSuccessed().add(sbiRoute);
-                }
-            }
-        }
-
-        for(FailData<String> tempFail : reRsp.getFail()) {
-            for(SbiNePolicyRoute sbiRoute : sbiRoutes) {
-                if(sbiRoute.getUuid().equals(tempFail.getData())) {
-                    FailData<SbiNePolicyRoute> failData = new FailData<>();
-                    failData.setData(sbiRoute);
-                    failData.setErrcode(tempFail.getErrcode());
-                    failData.setErrmsg(tempFail.getErrmsg());
-                    resultRsp.getFail().add(failData);
-                }
+                FailData<SbiNePolicyRoute> failData = new FailData<>();
+                failData.setData(sbiRoute);
+                failData.setErrcode(reRsp.getErrorCode());
+                failData.setErrmsg(reRsp.getMessage());
+                resultRsp.getFail().add(failData);
             }
         }
 
         resultRsp.setErrorCode(reRsp.getErrorCode());
+        resultRsp.setMessage(reRsp.getMessage());
         return resultRsp;
     }
-    
+
     private static ResultRsp<NbiNePolicyRoute> mergeCreateRsp(List<NbiNePolicyRoute> nbiRoutes,
             ResultRsp<NbiNePolicyRoute> resultRsp, List<FailData<SbiNePolicyRoute>> failRoutes)
             throws ServiceException {
@@ -202,8 +195,8 @@ public class PolicyRouteMergeUtil {
             for(FailData<SbiNePolicyRoute> tempFailRoute : failRoutes) {
 
                 if(nbiRoute.getUuid().equals(tempFailRoute.getData().getNbiNeRouteId())) {
-                    FailData<NbiNePolicyRoute> tempFailData = new FailData<>(tempFailRoute.getErrcode(),
-                            tempFailRoute.getErrmsg(), nbiRoute);
+                    FailData<NbiNePolicyRoute> tempFailData =
+                            new FailData<>(tempFailRoute.getErrcode(), tempFailRoute.getErrmsg(), nbiRoute);
                     nbifailRoutes.add(tempFailData);
                     isFailed = true;
                     break;

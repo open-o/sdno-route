@@ -17,7 +17,7 @@
             "connectionId": "connectionId",
             "type": "policy",
 			"trafficPolicyName": "mqc2",
-			"filterAction": "filterAction2",
+			"filterAction": "{\"action\":null,\"ruleList\":[],\"filter\":null,\"id\":\"uuid\"}",
 			"interfaceName": "vlanif1",
 			"direction": "inbound",
             "srcNeRole": "cloudcpe"

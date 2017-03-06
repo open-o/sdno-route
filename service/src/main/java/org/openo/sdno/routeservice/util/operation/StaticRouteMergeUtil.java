@@ -160,27 +160,20 @@ public class StaticRouteMergeUtil {
 
         ResultRsp<SbiNeStaticRoute> resultRsp = new ResultRsp<>();
 
-        for(String successId : reRsp.getSuccessed()) {
+        if(reRsp.isSuccess()) {
+            resultRsp.getSuccessed().addAll(sbiRoutes);
+        } else {
             for(SbiNeStaticRoute sbiRoute : sbiRoutes) {
-                if(sbiRoute.getUuid().equals(successId)) {
-                    resultRsp.getSuccessed().add(sbiRoute);
-                }
-            }
-        }
-
-        for(FailData<String> tempFail : reRsp.getFail()) {
-            for(SbiNeStaticRoute sbiRoute : sbiRoutes) {
-                if(sbiRoute.getUuid().equals(tempFail.getData())) {
-                    FailData<SbiNeStaticRoute> failData = new FailData<>();
-                    failData.setData(sbiRoute);
-                    failData.setErrcode(tempFail.getErrcode());
-                    failData.setErrmsg(tempFail.getErrmsg());
-                    resultRsp.getFail().add(failData);
-                }
+                FailData<SbiNeStaticRoute> failData = new FailData<>();
+                failData.setData(sbiRoute);
+                failData.setErrcode(reRsp.getErrorCode());
+                failData.setErrmsg(reRsp.getMessage());
+                resultRsp.getFail().add(failData);
             }
         }
 
         resultRsp.setErrorCode(reRsp.getErrorCode());
+        resultRsp.setMessage(reRsp.getMessage());
         return resultRsp;
     }
 

@@ -219,7 +219,7 @@ public class PolicyRouteSvcImpl implements PolicyRouteService {
             throw new ServiceException("Update Sbi Route not exists. nbiRoutes: " + JsonUtil.toJson(nbiDbRoutes));
         }
 
-        updateSbiModelData(nbiDbRoutes, sbiDbRoutes);
+        updateSbiModelData(nbiRoutes, sbiDbRoutes);
 
         List<SbiNePolicyRoute> deployedRoutes = new ArrayList<>();
         List<SbiNePolicyRoute> undeployRoutes = new ArrayList<>();

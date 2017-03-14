@@ -218,7 +218,7 @@ public class NqaSvcImpl implements NqaService {
             throw new ServiceException("Update Sbi NQA not exists. nbiNqas: " + JsonUtil.toJson(nbiDbNqa));
         }
 
-        updateSbiModelData(nbiDbNqa, sbiDbNqa);
+        updateSbiModelData(nbiNqas, sbiDbNqa);
 
         List<SbiNqa> deployedNqa = new ArrayList<>();
         List<SbiNqa> undeployNqa = new ArrayList<>();

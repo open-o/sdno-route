@@ -219,7 +219,7 @@ public class StaticRouteSvcImpl implements StaticRouteService {
             throw new ServiceException("Update Sbi Route not exists. nbiRoutes: " + JsonUtil.toJson(nbiDbRoutes));
         }
 
-        updateSbiModelData(nbiDbRoutes, sbiDbRoutes);
+        updateSbiModelData(nbiRoutes, sbiDbRoutes);
 
         List<SbiNeStaticRoute> deployedRoutes = new ArrayList<>();
         List<SbiNeStaticRoute> undeployRoutes = new ArrayList<>();

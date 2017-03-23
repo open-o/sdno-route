@@ -1,0 +1,685 @@
+#
+# Copyright 2017 Huawei Technologies Co., Ltd.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+swagger: '2.0'
+info:
+  title: RouteService
+  description: route service NBI interface
+  version: 1.0.0
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+basePath: /openoapi/sdnoroute/v1
+paths:
+  /static-routes:
+    post:
+      summary: create static routes
+      description: create static routes
+      operationId: createStaticRoutes
+      parameters:
+        - name: sbiRoutes
+          in: body
+          description: static routes info
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/NbiNeStaticRoute'
+      responses:
+        201:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/NbiNeStaticRoute'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+    put:
+      summary: update static route
+      description: update static route
+      operationId: updateStaticRoute
+      parameters:
+        - name: sbiRoute
+          in: body
+          description: static route info
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/NbiNeStaticRoute'
+      responses:
+        201:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/NbiNeStaticRoute'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /static-routes/{routeid}:
+    get:
+      summary: query static route
+      description: query static route
+      operationId: queryStaticRoute
+      parameters:
+        - name: routeid
+          in: path
+          description: static route Id
+          required: true
+          type: string
+      responses:
+        201:
+          description: OK
+          schema:
+            $ref: '#/definitions/NbiNeStaticRoute'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+    delete:
+      summary: delete static route
+      description: delete static route
+      operationId: deleteStaticRoute
+      parameters:
+        - name: routeid
+          in: path
+          description: static route Id
+          required: true
+          type: string
+      responses:
+        201:
+          description: OK
+          schema:
+            type: string
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /static-routes/batch-query:
+    get:
+      summary: batch query static routes
+      description: batch query static routes
+      operationId: batchQueryStaticRoutes
+      parameters:
+        - name: uuidList
+          in: body
+          description: UUID list of static routes
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        201:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/NbiNeStaticRoute'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /static-routes/action:
+    post:
+      summary: deploy or undeploy static routes
+      description: deploy or undeploy static routes
+      operationId: actionStaticRoutes
+      parameters:
+        - name: actionModel
+          in: body
+          description: the UUID needed to deploy or undeploy
+          required: true
+          schema:
+            $ref: '#/definitions/NbiActionModel'
+      responses:
+        201:
+          description: OK
+          schema:
+            type: array
+            items:
+              type: string
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+
+  /policy-routes:
+    post:
+      summary: create policy routes
+      description: create policy routes
+      operationId: createPolicyRoutes
+      parameters:
+        - name: sbiRoutes
+          in: body
+          description: policy routes info
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/NbiNePolicyRoute'
+      responses:
+        201:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/NbiNePolicyRoute'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+    put:
+      summary: update policy route
+      description: update policy route
+      operationId: updatePolicyRoute
+      parameters:
+        - name: sbiRoute
+          in: body
+          description: policy route info
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/NbiNePolicyRoute'
+      responses:
+        201:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/NbiNePolicyRoute'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /policy-routes/{routeid}:
+    get:
+      summary: query policy route
+      description: query policy route
+      operationId: queryPolicyRoute
+      parameters:
+        - name: routeid
+          in: path
+          description: policy route Id
+          required: true
+          type: string
+      responses:
+        201:
+          description: OK
+          schema:
+            $ref: '#/definitions/NbiNePolicyRoute'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+    delete:
+      summary: delete policy route
+      description: delete policy route
+      operationId: deletePolicyRoute
+      parameters:
+        - name: routeid
+          in: path
+          description: policy route Id
+          required: true
+          type: string
+      responses:
+        201:
+          description: OK
+          schema:
+            type: string
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /policy-routes/batch-query:
+    get:
+      summary: batch query policy routes
+      description: batch query policy routes
+      operationId: batchQueryPolicyRoutes
+      parameters:
+        - name: uuidList
+          in: body
+          description: UUID list of policy routes
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        201:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/NbiNePolicyRoute'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /policy-routes/action:
+    post:
+      summary: deploy or undeploy policy routes
+      description: deploy or undeploy policy routes
+      operationId: actionPolicyRoutes
+      parameters:
+        - name: actionModel
+          in: body
+          description: the UUID needed to deploy or undeploy
+          required: true
+          schema:
+            $ref: '#/definitions/NbiActionModel'
+      responses:
+        201:
+          description: OK
+          schema:
+            type: array
+            items:
+              type: string
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+
+  /nqas:
+    post:
+      summary: create NbiNqa
+      description: create NbiNqa
+      operationId: createNQA
+      parameters:
+        - name: nqaList
+          in: body
+          description: NbiNqa info
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/NbiNqa'
+      responses:
+        201:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/NbiNqa'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+    put:
+      summary: update NbiNqa
+      description: update NbiNqa
+      operationId: updateNQA
+      parameters:
+        - name: nqaList
+          in: body
+          description: NbiNqa info
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/NbiNqa'
+      responses:
+        201:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/NbiNqa'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /nqas/{nqaid}:
+    get:
+      summary: query NbiNqa
+      description: query NbiNqa
+      operationId: queryNQA
+      parameters:
+        - name: nqaid
+          in: path
+          description: NbiNqa Id
+          required: true
+          type: string
+      responses:
+        201:
+          description: OK
+          schema:
+            $ref: '#/definitions/NbiNqa'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+    delete:
+      summary: delete NbiNqa
+      description: delete NbiNqa
+      operationId: deleteNQA
+      parameters:
+        - name: nqaid
+          in: path
+          description: NbiNqa Id
+          required: true
+          type: string
+      responses:
+        201:
+          description: OK
+          schema:
+            type: string
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /nqas/batch-query:
+    get:
+      summary: batch query NbiNqa
+      description: batch query NbiNqa
+      operationId: batchQueryNQA
+      parameters:
+        - name: uuidList
+          in: body
+          description: UUID list of NbiNqa
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        201:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/NbiNqa'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+  /nqas/action:
+    post:
+      summary: deploy or undeploy NbiNqa
+      description: deploy or undeploy NbiNqa
+      operationId: actionNQA
+      parameters:
+        - name: actionModel
+          in: body
+          description: the UUID needed to deploy or undeploy
+          required: true
+          schema:
+            $ref: '#/definitions/NbiActionModel'
+      responses:
+        201:
+          description: OK
+          schema:
+            type: array
+            items:
+              type: string
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+
+definitions:
+  NbiActionModel:
+    type: object
+    properties:
+      deploy:
+        description: the UUID list needed to deploy
+        type: array
+        items:
+          type: string
+      undeploy:
+        description: the UUID list needed to undeploy
+        type: array
+        items:
+          type: string
+  UuidModel:
+    type: object
+    properties:
+      id:
+        type: string
+        description: the UUID of the model
+  BaseModel:
+    allOf:
+      - $ref: '#/definitions/UuidModel'
+      - type: object
+        required:
+          - tenantId
+        properties:
+          name:
+            type: string
+            description: the name of the model
+          tenantId:
+            type: string
+            description: tenant ID
+          description:
+            type: string
+            description: description info
+          deployStatus:
+            type: string
+            description: the scope is deploy, undeploy
+          actionState:
+            type: string
+            description: the scope is none,normal,creating,deleting,updating,create_exception,update_exception,
+                        delete_exception,deploying,deploy_exception,undeploying,undeploy_exception,checking,check_exception
+          activeStatus:
+            type: string
+            description: the scope is none,active,inactive,partially_inactive
+          runningStatus:
+            type: string
+            description: the scope is none,up,down,partially_down
+          additionalInfo:
+            type: string
+            description: additional info
+  NbiBaseServiceModel:
+    allOf:
+      - $ref: '#/definitions/BaseModel'
+      - type: object
+        required:
+          - srcNeId
+          - srcNeRole
+          - connectionId
+        properties:
+          srcNeId:
+            type: string
+            description: source NE Id
+          srcNeRole:
+            type: string
+            description: source NE role, the scope is localcpe,cloudcpe,vpc,dc-r
+          connectionId:
+            type: string
+            description: connection Id
+  NbiNeStaticRoute:
+    allOf:
+      - $ref: '#/definitions/NbiBaseServiceModel'
+      - type: object
+        required:
+          - type
+        properties:
+          type:
+            type: string
+            description: the scope is static
+          destIp:
+            type: string
+            description: destinantion IP address
+          enableDhcp:
+            type: string
+            description: the scope is true,false
+          nextHop:
+            type: string
+            description: next hop IP address
+          outInterfaceName:
+            type: string
+            description: outbound interface name
+          priority:
+            type: string
+            description: the priority of the route
+          nqa:
+            type: string
+            description: network quality analyzer
+  NbiNePolicyRoute:
+    allOf:
+      - $ref: '#/definitions/NbiBaseServiceModel'
+      - type: object
+        required:
+          - type
+          - interfaceName
+          - direction
+          - filterAction
+        properties:
+          type:
+            type: string
+            description: route type, the scope is policy
+          trafficPolicyName:
+            type: string
+            description: traffic policy name
+          interfaceName:
+            type: string
+            description: interface name
+          direction:
+            type: string
+            description: the scope is inbound, outbound, all
+          filterAction:
+            type: string
+            description: filter action
+  NbiNqa:
+    allOf:
+      - $ref: '#/definitions/BaseModel'
+      - type: object
+        required:
+          - neId
+          - dstIp
+        properties:
+          neId:
+            type: string
+            description: NE Id
+          neRole:
+            type: string
+            description: NE role
+          srcIp:
+            type: string
+            description: source IP address
+          srcPortName:
+            type: string
+            description: source port name
+          dstIp:
+            type: string
+            description: destination IP address
+          dstPortName:
+            type: string
+            description: destination port name
+          testType:
+            type: string
+            description: test type, now only support "ping"
+          frequency:
+            type: string
+            description: frequency, the range is 1 to 604800
+          probeCount:
+            type: string
+            description: probe count, the range is 1 to 15
+          timeout:
+            type: string
+            description: timeout, the range is 1 to 60
+          ttl:
+            type: string
+            description: time to live, the range is 1 to 255
+          tos:
+            type: string
+            description: type of service, the range is 1 to 255
+          interval:
+            type: string
+            description: interval
+

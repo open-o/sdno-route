@@ -27,7 +27,7 @@
     <!-- these are included in the dependency jar -->
     <import resource="classpath:META-INF/cxf/cxf.xml" />
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
-    
+
     <context:annotation-config />
     <context:component-scan base-package="org.openo.sdno.routeservice.rest" />
 
@@ -39,6 +39,7 @@
             <ref bean="policyRouteRoaResource"></ref>
             <ref bean="nqaRoaResource"></ref>
             <ref bean="healthCheckRoaResource"></ref>
+            <ref bean="swaggerRoaResource"></ref>
         </jaxrs:serviceBeans>
         <!-- registering providers -->
         <jaxrs:providers>
@@ -72,6 +73,9 @@
         <property name="nqaSvc" ref="nqaSvc"></property>
     </bean>
     <bean id="healthCheckRoaResource" class="org.openo.sdno.routeservice.rest.HealthCheckRoaResource">
+    </bean>
+    <bean id="swaggerRoaResource" class="org.openo.sdno.routeservice.rest.SwaggerRoaResource">
+        <property name="swaggerFilePath" value="docs/swagger.json"></property>
     </bean>
 
     <bean id="RouteRestModule" class="org.openo.sdno.routeservice.RouteRestModule" init-method="start"

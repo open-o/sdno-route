@@ -26,10 +26,6 @@
     <artifactId>routeservice-deployment</artifactId>
     <packaging>pom</packaging>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
     <build>
         <pluginManagement>
             <plugins>
@@ -41,6 +37,22 @@
             </plugins>
         </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-codegen-maven-plugin</artifactId>
+                <version>2.2.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${yamlfile.path}</inputSpec>
+                            <language>swagger</language>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.gmaven</groupId>
                 <artifactId>gmaven-plugin</artifactId>
@@ -67,17 +79,18 @@
                                 ant.mkdir(dir: "${deployFolder}")
 
                                 ant.delete(dir: "${deployUnzip}")
-                                ant.mkdir(dir:
-                                "${deployUnzip}")
+                                ant.mkdir(dir: "${deployUnzip}")
 
                                 ant.mkdir(dir: "${deployUnzip}/webapps/ROOT")
-                                ant.mkdir(dir:
-                                "${deployUnzip}/logs")
+                                ant.mkdir(dir: "${deployUnzip}/docs")
+                                ant.mkdir(dir: "${deployUnzip}/logs")
 
-                                ant.copy(todir: "${deployUnzip}") {
+                                ant.copy(todir:
+                                "${deployUnzip}") {
                                 fileset(dir:
                                 "${basedir}/src/main/release"){
-                                exclude(name: "**/.gitignore")
+                                exclude(name:
+                                "**/.gitignore")
                                 }
                                 }
 
@@ -87,10 +100,17 @@
                                 "${project.build.directory}/../../service/target/${package.name}")
                                 }
 
+                                ant.copy(todir:
+                                "${deployUnzip}/docs") {
+                                fileset(dir:
+                                "${project.build.directory}/generated-sources/swagger")
+                                }
+
                                 ant.zip(destfile:
                                 "${deployFolder}/${outfileName}") {
                                 fileset(dir: "${deployUnzip}")
                                 }
+
                                 System.out.println("******** completed. ************")
                             </source>
                         </configuration>

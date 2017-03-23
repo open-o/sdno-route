@@ -1,0 +1,794 @@
+#
+# Copyright 2017 Huawei Technologies Co., Ltd.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+swagger: '2.0'
+info:
+  title: RouteService
+  description: route service SBI interface
+  version: 1.0.0
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+basePath: /openoapi/sbi-route/v1
+paths:
+  /batch-create-static-routes:
+    post:
+      summary: create static routes
+      description: create static routes
+      operationId: createStaticRoutes
+      parameters:
+        - name: X-Driver-Parameter
+          in: header
+          description: additional driver-related parameters, current format is "extSysId={ctrlUuid}",and drivermgr will find out driver instance by controller
+          required: true
+          type: string
+        - name: sbiRoutes
+          in: body
+          description: static routes info
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SbiNeStaticRoute'
+      responses:
+        201:
+          description: OK
+          schema:
+            $ref: '#/definitions/SbiNeStaticRouteResultRsp'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+
+  /batch-query-static-routes:
+    post:
+      summary: query static routes
+      description: query static routes
+      operationId: queryStaticRoutes
+      parameters:
+        - name: X-Driver-Parameter
+          in: header
+          description: additional driver-related parameters, current format is "extSysId={ctrlUuid}",and drivermgr will find out driver instance by controller
+          required: true
+          type: string
+        - name: sbiRoutes
+          in: body
+          description: static routes info
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SbiNeStaticRoute'
+      responses:
+        201:
+          description: OK
+          schema:
+            $ref: '#/definitions/SbiNeStaticRouteResultRsp'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+
+  /batch-update-static-routes:
+    put:
+      summary: update static routes
+      description: update static routes
+      operationId: updateStaticRoutes
+      parameters:
+        - name: X-Driver-Parameter
+          in: header
+          description: additional driver-related parameters, current format is "extSysId={ctrlUuid}",and drivermgr will find out driver instance by controller
+          required: true
+          type: string
+        - name: sbiRoutes
+          in: body
+          description: static routes info
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SbiNeStaticRoute'
+      responses:
+        201:
+          description: OK
+          schema:
+            $ref: '#/definitions/SbiNeStaticRouteResultRsp'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+
+  /device/{deviceid}/batch-delete-static-routes:
+    post:
+      summary: delete static routes
+      description: delete static routes
+      operationId: deleteStaticRoutes
+      parameters:
+        - name: X-Driver-Parameter
+          in: header
+          description: additional driver-related parameters, current format is "extSysId={ctrlUuid}",and drivermgr will find out driver instance by controller
+          required: true
+          type: string
+        - name: deviceid
+          in: path
+          description: device Id
+          required: true
+          type: string
+        - name: sbiRoutes
+          in: body
+          description: static routes info
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SbiNeStaticRoute'
+      responses:
+        201:
+          description: OK
+          schema:
+            $ref: '#/definitions/StringResultRsp'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+
+  /batch-create-policy-routes:
+    post:
+      summary: create policy routes
+      description: create policy routes
+      operationId: createPolicyRoutes
+      parameters:
+        - name: X-Driver-Parameter
+          in: header
+          description: additional driver-related parameters, current format is "extSysId={ctrlUuid}",and drivermgr will find out driver instance by controller
+          required: true
+          type: string
+        - name: sbiRoutes
+          in: body
+          description: policy routes info
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SbiNePolicyRoute'
+      responses:
+        201:
+          description: OK
+          schema:
+            $ref: '#/definitions/SbiNePolicyRouteResultRsp'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+
+  /batch-query-policy-routes:
+    post:
+      summary: query policy routes
+      description: query policy routes
+      operationId: queryPolicyRoutes
+      parameters:
+        - name: X-Driver-Parameter
+          in: header
+          description: additional driver-related parameters, current format is "extSysId={ctrlUuid}",and drivermgr will find out driver instance by controller
+          required: true
+          type: string
+        - name: sbiRoutes
+          in: body
+          description: policy routes info
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SbiNePolicyRoute'
+      responses:
+        201:
+          description: OK
+          schema:
+            $ref: '#/definitions/SbiNePolicyRouteResultRsp'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+
+  /batch-update-policy-routes:
+    put:
+      summary: update policy routes
+      description: update policy routes
+      operationId: updatePolicyRoutes
+      parameters:
+        - name: X-Driver-Parameter
+          in: header
+          description: additional driver-related parameters, current format is "extSysId={ctrlUuid}",and drivermgr will find out driver instance by controller
+          required: true
+          type: string
+        - name: sbiRoutes
+          in: body
+          description: policy routes info
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SbiNePolicyRoute'
+      responses:
+        201:
+          description: OK
+          schema:
+            $ref: '#/definitions/SbiNePolicyRouteResultRsp'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+
+  /device/{deviceid}/batch-delete-policy-routes:
+    post:
+      summary: delete policy routes
+      description: delete policy routes
+      operationId: deletePolicyRoutes
+      parameters:
+        - name: X-Driver-Parameter
+          in: header
+          description: additional driver-related parameters, current format is "extSysId={ctrlUuid}",and drivermgr will find out driver instance by controller
+          required: true
+          type: string
+        - name: deviceid
+          in: path
+          description: device Id
+          required: true
+          type: string
+        - name: routeIds
+          in: body
+          description: external id list of policy routes
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        201:
+          description: OK
+          schema:
+            $ref: '#/definitions/StringResultRsp'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+
+  /device/{deviceid}/batch-create-nqa:
+    post:
+      summary: create NQA
+      description: create NQA
+      operationId: createNQA
+      parameters:
+        - name: X-Driver-Parameter
+          in: header
+          description: additional driver-related parameters, current format is "extSysId={ctrlUuid}",and drivermgr will find out driver instance by controller
+          required: true
+          type: string
+        - name: deviceid
+          in: path
+          description: device Id
+          required: true
+          type: string
+        - name: sbiNqa
+          in: body
+          description: nqa info
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SbiNqa'
+      responses:
+        201:
+          description: OK
+          schema:
+            $ref: '#/definitions/SbiNqaResultRsp'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+
+  /device/{deviceid}/batch-query-nqa:
+    post:
+      summary: query NQA
+      description: query NQA
+      operationId: queryNQA
+      parameters:
+        - name: X-Driver-Parameter
+          in: header
+          description: additional driver-related parameters, current format is "extSysId={ctrlUuid}",and drivermgr will find out driver instance by controller
+          required: true
+          type: string
+        - name: deviceid
+          in: path
+          description: device Id
+          required: true
+          type: string
+        - name: sbiNqa
+          in: body
+          description: nqa info
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SbiNqa'
+      responses:
+        201:
+          description: OK
+          schema:
+            $ref: '#/definitions/SbiNqaResultRsp'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+
+  /device/{deviceid}/batch-update-nqa:
+    put:
+      summary: update NQA
+      description: update NQA
+      operationId: updateNQA
+      parameters:
+        - name: X-Driver-Parameter
+          in: header
+          description: additional driver-related parameters, current format is "extSysId={ctrlUuid}",and drivermgr will find out driver instance by controller
+          required: true
+          type: string
+        - name: deviceid
+          in: path
+          description: device Id
+          required: true
+          type: string
+        - name: sbiNqa
+          in: body
+          description: nqa info
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SbiNqa'
+      responses:
+        201:
+          description: OK
+          schema:
+            $ref: '#/definitions/SbiNqaResultRsp'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+
+  /device/{deviceid}/batch-delete-nqa:
+    post:
+      summary: delete NQA
+      description: delete NQA
+      operationId: deleteNQA
+      parameters:
+        - name: X-Driver-Parameter
+          in: header
+          description: additional driver-related parameters, current format is "extSysId={ctrlUuid}",and drivermgr will find out driver instance by controller
+          required: true
+          type: string
+        - name: deviceid
+          in: path
+          description: device Id
+          required: true
+          type: string
+        - name: sbiNqa
+          in: body
+          description: nqa info
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        201:
+          description: OK
+          schema:
+            $ref: '#/definitions/StringResultRsp'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+
+definitions:
+  SbiNeStaticRoute:
+    allOf:
+      - $ref: '#/definitions/SbiRouteNetModel'
+      - type: object
+        required:
+          - destIp
+          - enableDhcp
+        properties:
+          destIp:
+            type: string
+            description: destination IP address
+          enableDhcp:
+            type: string
+            description: enable dhcp or not
+          nextHop:
+            type: string
+            description: next hop IP address
+          outInterface:
+            type: string
+            description: outbound interface
+          priority:
+            type: string
+            description: the priority of the route
+          nqa:
+            type: string
+            description: network quality analyzer
+
+  SbiNePolicyRoute:
+    allOf:
+      - $ref: '#/definitions/SbiRouteNetModel'
+      - type: object
+        required:
+          - trafficPolicyName
+          - interfaceName
+          - direction
+          - filterAction
+        properties:
+          trafficPolicyName:
+            type: string
+            description: traffic policy name
+          interfaceName:
+            type: string
+            description: interface name
+          direction:
+            type: string
+            description: the scope is inbound, outbound, all
+          filterAction:
+            type: string
+            description: filter action
+
+  SbiNqa:
+    allOf:
+      - $ref: '#/definitions/SbiRouteNetModel'
+      - type: object
+        required:
+          - neId
+          - dstIp
+        properties:
+          neId:
+            type: string
+            description: NE Id
+          neRole:
+            type: string
+            description: NE role
+          srcIp:
+            type: string
+            description: source IP address
+          srcPortName:
+            type: string
+            description: source port name
+          dstIp:
+            type: string
+            description: destination IP address
+          dstPortName:
+            type: string
+            description: destination port name
+          testType:
+            type: string
+            description: test type, now only support "ping"
+          frequency:
+            type: string
+            description: frequency, the range is 1 to 604800
+          probeCount:
+            type: string
+            description: probe count, the range is 1 to 15
+          timeout:
+            type: string
+            description: timeout, the range is 1 to 60
+          ttl:
+            type: string
+            description: time to live, the range is 1 to 255
+          tos:
+            type: string
+            description: type of service, the range is 1 to 255
+          interval:
+            type: string
+            description: interval
+
+  UuidModel:
+    type: object
+    properties:
+      id:
+        type: string
+        description: the UUID of the model
+  BaseModel:
+    allOf:
+      - $ref: '#/definitions/UuidModel'
+      - type: object
+        required:
+          - tenantId
+        properties:
+          name:
+            type: string
+            description: the name of the model
+          tenantId:
+            type: string
+            description: tenant ID
+          description:
+            type: string
+            description: description info
+          deployStatus:
+            type: string
+            description: the scope is deploy, undeploy
+          actionState:
+            type: string
+            description: the scope is none,normal,creating,deleting,updating,create_exception,update_exception,
+                        delete_exception,deploying,deploy_exception,undeploying,undeploy_exception,checking,check_exception
+          activeStatus:
+            type: string
+            description: the scope is none,active,inactive,partially_inactive
+          runningStatus:
+            type: string
+            description: the scope is none,up,down,partially_down
+          additionalInfo:
+            type: string
+            description: additional info
+  SbiRouteNetModel:
+    allOf:
+      - $ref: '#/definitions/BaseModel'
+      - type: object
+        required:
+          - deviceId
+          - nbiNeRouteId
+        properties:
+          deviceId:
+            type: string
+            description: device ID
+          controllerId:
+            type: string
+            description: controller ID
+          externalId:
+            type: string
+            description: external ID
+          nbiNeRouteId:
+            type: string
+            description: the UUID of nbi model
+
+  ResultResponse:
+    type: object
+    description: common result model
+    properties:
+      errorCode:
+        type: string
+        description: result error code
+      descArg:
+        type: string
+        description: The description args
+      reasonArg:
+        type: string
+        description: The reason args
+      detailArg:
+        type: string
+        description: The detail args
+      adviceArg:
+        type: string
+        description: The advice args
+      httpCode:
+        type: integer
+        description: The http status code
+      message:
+        type: string
+        description: the exception message word
+      smallErrorCodeList:
+        $ref: "#/definitions/ErrorCodeInfo"
+  SbiNeStaticRouteResultRsp:
+    description: String result model
+    allOf:
+      - $ref: '#/definitions/ResultResponse'
+      - type: object
+        properties:
+          data:
+            $ref: "#/definitions/SbiNeStaticRoute"
+          successed:
+            type: array
+            items:
+              $ref: '#/definitions/SbiNeStaticRoute'
+            description: the successed list.
+          fail:
+            type: array
+            items:
+              $ref: '#/definitions/SbiNeStaticRouteFailData'
+            description: the failed list.
+  SbiNeStaticRouteFailData:
+    type: object
+    description: fail data model
+    properties:
+      errorCode:
+        type: string
+        description: result error code
+      message:
+        type: string
+        description: the error message word
+      data:
+        $ref: "#/definitions/SbiNeStaticRoute"
+
+  SbiNePolicyRouteResultRsp:
+    description: String result model
+    allOf:
+      - $ref: '#/definitions/ResultResponse'
+      - type: object
+        properties:
+          data:
+            $ref: "#/definitions/SbiNePolicyRoute"
+          successed:
+            type: array
+            items:
+              $ref: "#/definitions/SbiNePolicyRoute"
+            description: the successed list.
+          fail:
+            type: array
+            items:
+              $ref: "#/definitions/SbiNePolicyRouteFailData"
+            description: the failed list.
+  SbiNePolicyRouteFailData:
+    type: object
+    description: fail data model
+    properties:
+      errorCode:
+        type: string
+        description: result error code
+      message:
+        type: string
+        description: the error message word
+      data:
+        $ref: "#/definitions/SbiNePolicyRoute"
+
+  SbiNqaResultRsp:
+    description: String result model
+    allOf:
+      - $ref: '#/definitions/ResultResponse'
+      - type: object
+        properties:
+          data:
+            $ref: "#/definitions/SbiNqa"
+          successed:
+            type: array
+            items:
+              $ref: "#/definitions/SbiNqa"
+            description: the successed list.
+          fail:
+            type: array
+            items:
+              $ref: "#/definitions/SbiNqaFailData"
+            description: the failed list.
+  SbiNqaFailData:
+    type: object
+    description: fail data model
+    properties:
+      errorCode:
+        type: string
+        description: result error code
+      message:
+        type: string
+        description: the error message word
+      data:
+        $ref: "#/definitions/SbiNqa"
+
+  StringResultRsp:
+    description: String result model
+    allOf:
+      - $ref: '#/definitions/ResultResponse'
+      - type: object
+        properties:
+          data:
+            type: string
+            description: data body
+          successed:
+            type: array
+            items:
+              type: string
+            description: the successed list.
+          fail:
+            type: array
+            items:
+              $ref: '#/definitions/StringFailData'
+            description: the failed list.
+  StringFailData:
+    type: object
+    description: fail data model
+    properties:
+      errorCode:
+        type: string
+        description: result error code
+      message:
+        type: string
+        description: the error message word
+      data:
+        type: string
+  ErrorCodeInfo:
+    type: object
+    description: Error code information model
+    properties:
+      errorCode:
+        type: string
+        description: error code
+      description:
+        type: string
+        description: error description
+      objectId:
+        type: string
+        description: object Id
+      objectName:
+        type: string
+        description: object Name
+      object:
+        type: object
+        description: object
+      descArg:
+        type: string
+        description: The description args
+      reasonArg:
+        type: string
+        description: The reason args
+      detailArg:
+        type: string
+        description: The detail args
